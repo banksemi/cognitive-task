@@ -14,8 +14,49 @@ texts = {
 
 #참여자 ID 윈도우
 exp_info = {'participant':'participant_ID',
-    }  # default parameters of the experiment
+}  # default parameters of the experiment
 
+from psychopy import iohub
+class psycopy_mouse:
+    pressed = False
+    clicked = False
+    def __init__(self, win, io=None, visible=None):
+        self.win_mouse=event.Mouse(visible=True,win=win)
+        if io is None:
+            io = iohub.launchHubServer()
+        self.io_mouse = io.devices.mouse
+        self.io_mouse.clearEvents()
+        
+        if visible is not None:
+            self.setVisible(visible);
+    def clear(self):
+        self.io_mouse.clearEvents()
+        self.pressed = False
+        self.clicked = False
+        
+    def setVisible(self, value):
+        self.win_mouse.setVisible(value)
+        
+    def getClicked(self):
+        return self.clicked
+        
+    def getPos(self):
+        return self.win_mouse.getPos()
+        
+    def update(self):
+        self.clicked = False # 클릭 초기화
+        events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_PRESS))
+        
+        for e in events:
+            if self.pressed == False:
+                self.clicked = True
+            self.pressed = True
+        
+        # release 신호 처리
+        events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_RELEASE))
+        for e in events:
+            self.pressed = False
+            
 
 # 화면에 넣기
 
@@ -37,7 +78,7 @@ if not dlg.OK:
 win = visual.Window([255*4.5, 205*4.5], allowGUI=True, fullscr=False, waitBlanking=True, monitor='testMonitor', units='deg') # Create window
 #응답 설정: 마우스로 클릭
 
-mouse=event.Mouse(visible=True,win=win)
+mouse=psycopy_mouse(visible=True,win=win)
 
 #상자 크기 (단위는 pixel)
 box_size=3
@@ -54,6 +95,7 @@ boxes = [visual.Rect(win, pos=[box_pos[0]/15, box_pos[1]/15], width=box_size, he
 
 #'선택 완료' 버튼 박스
 exit_box = visual.Rect(win, pos=[0,-10], width=3, height=1)
+
 # '선택 완료'라는 텍스트의 위치 (버튼 박스 내)
 exit_text = visual.TextStim(win, pos = [0,-10], text = _('exit'))
 
@@ -135,8 +177,17 @@ while True:
         exit_text.draw() #'완료'텍스트 제시
         win.flip()
         responses = [] #빈 응답에서 append를 통해 축척
+        mouse.clear()
         while True:
-            if sum(mouse.getPressed()):
+            
+            win.update()
+            colors = ['green']*len(boxes)
+            draw_boxes(colors)
+            exit_box.draw() #완료버튼 제시
+            exit_text.draw() #'완료'텍스트 제시
+            
+            mouse.update()
+            if mouse.getClicked():
                 box_pressed = [box.contains(mouse.getPos()) for box in boxes]
                 if sum(box_pressed):
                     colors[box_pressed.index(True)] = 'white'
@@ -151,17 +202,18 @@ while True:
                     draw_boxes(colors)  
                     exit_box.draw()
                     exit_text.draw()
-                    win.flip()
+                    #win.flip()
 
                     if not (box_pressed.index(True) in responses):
                         responses.append(box_pressed.index(True))
-                draw_boxes(colors)
-                exit_box.draw()
-                exit_text.draw()
-                win.flip()
+                # draw_boxes(colors)
+                # exit_box.draw()
+                # exit_text.draw()
+                #win.flip()
 
                 if exit_box.contains(mouse.getPos()):
                     break
+            
         win.flip()
         core.wait(1)
         errors = [int(i!=j) for i, j in zip(box_list, responses)]
