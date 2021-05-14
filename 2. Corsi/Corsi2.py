@@ -10,6 +10,12 @@ import openpyxl
 import os 
 import json
 
+# 모니터 크기에 따라 블럭 사이즈 변경
+alpha = 0.98 # 세로 해상도에 맞춰짐
+
+# with pyresult('승화','Corsi') as result:
+#    result.write('total_score', 6)
+
 # #안내문 내용
 texts = {
     'instr':
@@ -93,7 +99,7 @@ class window_manager:
     input_keys = []
     def __init__(self, win):
         self.win = win
-        self.mouse=psycopy_mouse(visible=True,win=win)
+        self.mouse=psycopy_mouse(visible=True, win=win)
     
     def append(self, dobject):
         self.dobjects.append(dobject)
@@ -114,6 +120,7 @@ class window_manager:
         if self.getPressKey('escape'):
             self.win.close()
             core.quit()
+        self.dobjects.sort(key= lambda x: x.z)
         for i in self.dobjects:
             i.update()
             if i.visible:
@@ -224,14 +231,27 @@ if not dlg.OK:
     core.quit()
 
 #윈도우
-win = visual.Window([255*4.5, 205*4.5], allowGUI=True, fullscr=False, waitBlanking=True, monitor='testMonitor', units='deg')
+win = visual.Window([1600, 900], allowGUI=True, fullscr=True, waitBlanking=True, monitor='testMonitor', units='height')
 window = window_manager(win)
 #상자 크기 (단위는 pixel)
-box_size=3
+box_size=30
 
 #상자 위치 (총 9개 제시)
 # box_positions = [[-26, -102], [98, -104], [-118, -63], [74, -28], [-45, -23], [-135, 31], [134, 44], [54, 92], [-11, 38]]
-box_positions = [[40,150], [-150, 110], [140,100], [-80, 35], [40,0], [155, -50], [-170, -100], [-70, -130], [30, -115]]
+# box_positions = [[40,150], [-150, 110], [140,100], [-80, 35], [40,0], [155, -50], [-170, -100], [-70, -130], [30, -115]]
+box_positions = [[130,155], [30, 145], [180,120], [70, 110], [140, 90], [195, 60], [15, 50], [75,20], [135, 30]]
+
+# box 매핑 
+box_positions = [[i[0]+15, i[1]+15] for i in box_positions]
+
+box_positions = [[i[0] - (255/2), i[1] - (205/2)] for i in box_positions]
+
+# 0~205 비율을 0~1 비율로 수정
+box_positions = [[i[0] / 205, i[1] / 205] for i in box_positions]
+box_size /= 205
+
+box_positions = [[i[0] * alpha, i[1] * alpha] for i in box_positions]
+box_size *= alpha
 
 # Open log file to write
 # 기록 파일 이름
@@ -248,10 +268,16 @@ window.remove(text_instruction)
         
 boxes = []
 for box_pos in box_positions:
-    box = drawling_box(box_pos[0]/15, box_pos[1]/15, box_size, color=[0,180,0])
+    box = drawling_box(box_pos[0], box_pos[1], box_size, color=[0,180,0])
     boxes.append(box)
     window.append(box)
 
+'''
+back = drawling_box(0, 0, 200, color=[111,111,111])
+back.z = -999
+window.append(back)
+    
+    '''
 #'선택 완료' 버튼 박스
 exit_box = drawling_object(visual.Rect(win, pos=[0,-10], width=3, height=1))
 window.append(exit_box)
