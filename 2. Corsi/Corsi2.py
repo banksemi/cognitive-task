@@ -6,6 +6,9 @@ from psychopy import iohub
 
 # Import analyze_log
 import random
+import openpyxl
+import os 
+import json
 
 # #안내문 내용
 texts = {
@@ -20,6 +23,52 @@ exp_info = {'participant':'participant_ID',
 }  # default parameters of the experiment
 
 ####################################################################################
+# 액셀 입출력을 위한 클래스
+class pyresult:
+    value_table = {
+        'Corsi': {
+            'total_score': ['B', 2],
+            'block_span': ['C', 2],
+            
+            'trial_stimulus': ['B', 5],
+            'trial_response': ['C', 5],
+            'trial_reaction_time': ['D', 5],
+            'trial_correct': ['E', 5],
+        }
+    }
+    
+    def __init__(self, participant_id, test_name):
+        self.test_name = test_name
+        self.output_path = '../output/' + participant_id + '.xlsx'
+        if os.path.isfile(self.output_path):
+            self.workbook = openpyxl.load_workbook(self.output_path)
+        else:
+            self.workbook = openpyxl.load_workbook('../CBT_result.xlsx')
+        self.worksheet = self.workbook[self.test_name]
+        
+    def write(self, name, value, index=0):
+        position = self.value_table[self.test_name][name]
+        if isinstance(value, list):
+            value = str(value)
+        self.worksheet[position[0] + str(position[1] + index)] = value
+    
+    def read(self, name, index=0):
+        position = self.value_table[self.test_name][name]
+        return self.worksheet[position[0] + str(position[1] + index)].value
+        
+    def save(self):
+        self.workbook.save(self.output_path)
+        
+    def close(self):
+        self.workbook.close()
+        
+    def __enter__(self):
+        return self
+        
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.save()
+        self.close()
+
 # 객체 및 입력 이벤트 관리를 위한 Common Module 정의
 class drawling_object:
     z = 0
@@ -211,52 +260,28 @@ window.append(exit_box)
 exit_text = drawling_object(visual.TextStim(win, pos = [0,-10], text = _('exit')))
 window.append(exit_text)
 
+# 사전 정의된 stimulus
+stimulus_set = []
+result = pyresult(exp_info['participant'], 'Corsi')
 
-
-test_i = -1
-#test_series 배열 중 첫 번째 배열부터 시작
-error_n = 0
-#오류 수도 디폴트 값이 0
-max_n = 0
-#최대 값(점수)도 디폴트 값이 0
-
-err_sum=0
-
-while True:
-    count = 0
-    if err_sum==2:
-        break
-    err_sum=0
-    test_i += 1 #박스 개수 증가 + alpha
-
-    if test_i==8:
-        break
-
-    while(count<2):
-
-        # #깜빡임 갯수와 순서 지정
-        #
-        # #중복 허용 x
-        box_list = []
-        box_random = random.randint(0,8)
-        for i in range(test_i+2):
-            while box_random in box_list:
-                box_random = random.randint(0,8)
-            box_list.append(box_random)
-
-        # Present the series
+block_span = 0
+for trial_i in range(0, 7):
+    corrects = []
+    for trial_j in [0, 1]:
+        trial_index = trial_i * 2 + trial_j
+        stimulus = json.loads(result.read('trial_stimulus', trial_index))
+        
         #시퀀스 제시
         window.mouse.setVisible(False)
         exit_box.setVisible(False)
         exit_text.setVisible(False)
-
+        
         window.update_wait_time(1)
 
-        for index in box_list:
-            boxes[index].setWhiteColor(1)
+        for index in stimulus:
+            boxes[index-1].setWhiteColor(1)
             window.update_wait_time(1)
             
-            # boxes[index].setFillColor('green')
             window.update_wait_time(0.2)
 
         # Participant chooses boxes
@@ -265,30 +290,34 @@ while True:
         exit_box.setVisible(True)
         exit_text.setVisible(True)
         
-        responses = [] #빈 응답에서 append를 통해 축척
+        responses = []
+        start = datetime.now()
         while True:
             window.update()
             for i, box in enumerate(boxes):
                 if window.isClickedObject(box):
                     box.setWhiteColor(0.2, effect=True)
 
-                    if not (i in responses):
-                        responses.append(i)
+                    if not (i+1 in responses):
+                        responses.append(i+1)
                         
             if window.isClickedObject(exit_box):
                 break
-                
-        print("box_list", box_list);
-        print("responses", responses);
         
-        errors = [int(i!=j) for i, j in zip(box_list, responses)]
-        log_file.write('"%s", task, %s, %s, %s\n' %(exp_info['participant'], box_list, responses, errors))
+        result.write('trial_response', responses, index=trial_index)
+        result.write('trial_reaction_time', (datetime.now()-start).total_seconds(), index=trial_index)
         
-        log_file.flush()
-        if errors == []: errors = [1] #전혀 값이 없을 때
-        if sum(errors):
-            err_sum += 1
+        
+        correct = 1 if (stimulus == responses) else 0
+        corrects.append(correct)
+        result.write('trial_correct', correct, index=trial_index)
+    
+    if sum(corrects) == 0:
+        break
+    if sum(corrects) == 2: # 2번 모두 성공
+        block_span = trial_i + 2
+        
+result.write('block_span', block_span)
 
-        count = count+1
-
-win.flip()
+result.save()
+result.close()
