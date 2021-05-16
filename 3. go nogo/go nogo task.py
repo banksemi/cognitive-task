@@ -34,8 +34,9 @@ class drawling_image(drawling_object):
 participant_id = inputParticipant()
 
 #윈도우
-win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height')
+win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
 window = window_manager(win)
+
 
 introduction = ["g1.png","g2.png","g3.png","g4.png"]
 for file_name in introduction:
@@ -93,9 +94,6 @@ for i, image_name in enumerate(orders):
                     go_reaction_time.append(time)
                 else:
                     nogo_reaction_time.append(time)
-                    
-                
-                
             break
             
     
@@ -109,67 +107,3 @@ for i, image_name in enumerate(orders):
     result.save()
     window.remove(image)
                 
-exit()
-
-
-subinfo = filename.getSubjInfo()
-
-win = visual.Window(fullscr=False, color=[1,1,1], units='pix')
-intro = visual.ImageStim(win, units='pix')
-first = visual.ImageStim(win, units='pix')
-#animal = visual.ImageStim(win, units='pix')
-preFix = visual.TextStim(win, text='+', color=[-1,-1,-1], height=50, units='pix')
-stim = visual.ImageStim(win, units ='pix')             #Stimulus
-RT = core.Clock()
-
-
-introduction = ["g1.png","g2.png","g3.png","g4.png"]
-for int in introduction:
-    intro.image = int
-    intro.draw()
-    win.flip()
-    while 'space' not in event.getKeys():pass
- 
-animals = ["cow.png", "cat.png", "bear.png", "zebra.png", "elephant.png", "giraffe.png", "rabbit.png", "dog.png", "wolf.png", "lion.png", "tiger.png", "tiger2.png"]     #tiger-10
-order = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-orders = []
-
-for j in range(5):
-    random.shuffle(order)
-    orders.extend(order)
-#print orders
-results = []
-
-for i in orders:
-    preFix.draw()
-    win.flip()
-    winsound.Beep(880,500) 
-    core.wait(0.5)
-    stim.image = animals[i]
-    stim.draw()
-    win.flip()
-    RT.reset()
-     
-    keys = []
-    event.clearEvents('keyboard')
-    while (len(keys) == 0) and (RT.getTime() < 1.0):
-        keys = event.getKeys(['space'], timeStamped=RT)
-
-    if len(keys) == 0:
-        keys.append(('No space', 1))
-#core.wait(0.5)
-    print(i, keys[0][0], keys[0][1])
-    results.append([i, keys[0][1]])
-
-filename.saveResult('GNG',subinfo, basket)
-alpha=np.array(basket)
-alpha2=pd.DataFrame(alpha)
-fname = 'GNG' + subinfo[0] + subinfo[1] + '.csv'
-alpha2.to_csv(fname)
-
-first.image = "g5.png"
-first.draw()
-win.flip()
-while 'space' not in event.getKeys():pass
-
-win.close()
