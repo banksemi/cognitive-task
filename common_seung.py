@@ -25,6 +25,7 @@ class pyresult:
     
     def __init__(self, participant_id, test_name):
         self.test_name = test_name
+        self.participant_id = participant_id
         self.output_path = '../output/' + participant_id + '.xlsx'
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
@@ -42,8 +43,9 @@ class pyresult:
         position = self.value_table[self.test_name][name]
         return self.worksheet[position[0] + str(position[1] + index)].value
         
-    def save(self):
+    def save(self, reload=True):
         self.workbook.save(self.output_path)
+        self.__init__(self.participant_id, self.test_name)
         
     def close(self):
         self.workbook.close()
@@ -52,7 +54,7 @@ class pyresult:
         return self
         
     def __exit__(self, exc_type, exc_value, traceback):
-        self.save()
+        self.save(reload=False)
         self.close()
 
 # 객체 및 입력 이벤트 관리를 위한 Common Module 정의
