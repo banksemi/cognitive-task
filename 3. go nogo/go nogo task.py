@@ -96,14 +96,14 @@ for i, image_name in enumerate(orders):
                     nogo_reaction_time.append(time)
             break
             
-    
-    result.write('inhibition', inhibition)
-    result.write('score', score)
-    if len(go_reaction_time) > 0:
-        result.write('go_reaction_time', np.array(go_reaction_time).mean())
-        
-    if len(nogo_reaction_time) > 0:
-        result.write('nogo_reaction_time', np.array(nogo_reaction_time).mean())
-    result.save()
     window.remove(image)
+    
+result.write('inhibition', inhibition)
+result.write('score', score)
+if len(go_reaction_time) > 0:
+    result.write('go_reaction_time', np.array(go_reaction_time).mean())
+        
+if len(nogo_reaction_time) > 0:
+    result.write('nogo_reaction_time', np.array(nogo_reaction_time).mean())
+result.save()
                 
