@@ -32,10 +32,7 @@ class drawling_image(drawling_object):
         
         
 participant_id = inputParticipant()
-
-#윈도우
-win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
-window = window_manager(win)
+win, window = initWindow()
 
 
 introduction = ["g1.png","g2.png","g3.png","g4.png"]

@@ -76,10 +76,7 @@ def _(string):
     return texts[string]['kor']
 
 participant_id = inputParticipant()
-
-#윈도우
-win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height')
-window = window_manager(win)
+win, window = initWindow()
 
 back = drawling_box(0, 0, 200, color=background_color)
 back.z = -999
