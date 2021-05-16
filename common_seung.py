@@ -20,6 +20,17 @@ class pyresult:
             'trial_response': ['C', 5],
             'trial_reaction_time': ['D', 5],
             'trial_correct': ['E', 5],
+        },
+        'Go, No-Go': {
+            'inhibition': ['B', 2],
+            'score': ['C', 2],
+            'go_reaction_time': ['D', 2],
+            'nogo_reaction_time': ['E', 2],
+            
+            'trial_stimulus': ['B', 5],
+            'trial_response': ['C', 5],
+            'trial_correct': ['D', 5],
+            'trial_reaction_time': ['E', 5],
         }
     }
     
