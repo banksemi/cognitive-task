@@ -12,7 +12,13 @@ import json
 
 # 모니터 크기에 따라 블럭 사이즈 변경
 alpha = 0.98 # 세로 해상도에 맞춰짐
+background_color = [255,255,255]
+block_color = [0,180,0]
 
+
+
+background_color = [0,0,0]
+block_color = [64, 71, 202]
 # with pyresult('승화','Corsi') as result:
 #    result.write('total_score', 6)
 
@@ -181,6 +187,7 @@ class psycopy_mouse:
         for e in events:
             self.pressed = False
 ####################################################################################
+
 # custom 객체 사전 정의
 class drawling_box(drawling_object):
     i_effect = 0
@@ -189,7 +196,7 @@ class drawling_box(drawling_object):
         self.box = visual.Rect(win, pos=[x, y], width=box_size, height=box_size)
         self.color = color
         super().__init__(self.box)
-        line = 0.14
+        line = 2 * 2 / win.size[1]
         self.box_outline = visual.Rect(win, pos=[x, y], width=box_size+line, height=box_size+line)
         self.box_outline.setFillColor('black')
         
@@ -199,12 +206,12 @@ class drawling_box(drawling_object):
         self.i_opacity_wait = datetime.now() + timedelta(seconds=time) 
         
     def draw(self):
-        # self.box_outline.draw()
+        self.box_outline.draw()
         self.box.draw()
     
     def update(self):
         color1 = self.color
-        color2 = [255,255,255]
+        color2 = [254,202,3]
         if (datetime.now() - self.i_opacity_wait).total_seconds() > 0:
             if self.i_effect > 0:
                 self.i_effect -= 1
@@ -231,8 +238,14 @@ if not dlg.OK:
     core.quit()
 
 #윈도우
-win = visual.Window([1600, 900], allowGUI=True, fullscr=True, waitBlanking=True, monitor='testMonitor', units='height')
+win = visual.Window([1600, 900], allowGUI=True, fullscr=False, waitBlanking=True, monitor='testMonitor', units='height')
 window = window_manager(win)
+
+back = drawling_box(0, 0, 200, color=background_color)
+back.z = -999
+window.append(back)
+
+
 #상자 크기 (단위는 pixel)
 box_size=30
 
@@ -268,16 +281,12 @@ window.remove(text_instruction)
         
 boxes = []
 for box_pos in box_positions:
-    box = drawling_box(box_pos[0], box_pos[1], box_size, color=[0,180,0])
+    box = drawling_box(box_pos[0], box_pos[1], box_size, color=block_color) # 0,180,0
     boxes.append(box)
     window.append(box)
 
-'''
-back = drawling_box(0, 0, 200, color=[111,111,111])
-back.z = -999
-window.append(back)
     
-    '''
+
 #'선택 완료' 버튼 박스
 exit_box = drawling_object(visual.Rect(win, pos=[0,-10], width=3, height=1))
 window.append(exit_box)
