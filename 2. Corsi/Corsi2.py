@@ -33,11 +33,6 @@ texts = {
         {'kor': '완료'}
 }
 
-#참여자 ID 윈도우
-exp_info = {'participant':'participant_ID',
-}  # default parameters of the experiment
-
-
 
 # custom 객체 사전 정의
 class drawling_box(drawling_object):
@@ -80,16 +75,10 @@ def _(string):
     # You should use texts dictionary to strore the strings, and set exp_info['language'] to specify the language
     return texts[string]['kor']
 
-# Setting some parameters on GUI
-dlg = gui.DlgFromDict(exp_info, title='Corsi Test',
-   order = ['participant'],
-    tip = {'participant':'Identifier of the participant.',})
-if not dlg.OK:
-    print ('User Cancelled')
-    core.quit()
+participant_id = inputParticipant()
 
 #윈도우
-win = visual.Window([1600, 900], allowGUI=True, fullscr=False, waitBlanking=True, monitor='testMonitor', units='height')
+win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height')
 window = window_manager(win)
 
 back = drawling_box(0, 0, 200, color=background_color)
@@ -117,13 +106,6 @@ box_size /= 205
 box_positions = [[i[0] * alpha, i[1] * alpha] for i in box_positions]
 box_size *= alpha
 
-# Open log file to write
-# 기록 파일 이름
-file_name = exp_info['participant']+'_corsi.csv'
-log_file = open(file_name, 'a')
-#기록 파일 내 포함될 변인과 헤드 이름
-log_file.write('participant, series, responses, errors\n') # Heading
-
 # Instruction
 text_instruction = drawling_object(visual.TextStim(win, wrapWidth=30, pos=[0,0], text=_('instr'))) # Text object
 window.append(text_instruction)
@@ -148,7 +130,7 @@ window.append(exit_text)
 
 # 사전 정의된 stimulus
 stimulus_set = []
-result = pyresult(exp_info['participant'], 'Corsi')
+result = pyresult(participant_id, 'Corsi')
 
 block_span = 0
 for trial_i in range(0, 7):

@@ -160,4 +160,20 @@ class psycopy_mouse:
         events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_RELEASE))
         for e in events:
             self.pressed = False
+            
+            
+def inputParticipant():
+    #참여자 ID 윈도우
+    exp_info = {
+        'participant':'participant_ID',
+    } 
+    # Setting some parameters on GUI
+    dlg = gui.DlgFromDict(exp_info, title='Corsi Test',
+        order = ['participant'],
+        tip = {'participant':'Identifier of the participant.',})
+    if not dlg.OK:
+        print ('User Cancelled')
+        core.quit()
+    return exp_info['participant']
+
 ####################################################################################
