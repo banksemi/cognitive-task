@@ -9,7 +9,6 @@ import filename
 import numpy as np
 import pandas as pd 
 
-from PIL import Image
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
@@ -21,13 +20,6 @@ for i in os.listdir(image_path):
     if i.startswith('nogo'): # nogo 이미지는 두번
         image_list.append(os.path.join(image_path, i))
     
-class drawling_image(drawling_object):
-    def __init__(self, x, y, image, height = 1):
-        image1 = Image.open(image)
-        mag1_size = image1.size
-        y_x = image1.size[0] / image1.size[1]
-        self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[y_x * height, height])
-        super().__init__(self.image)
         
         
         

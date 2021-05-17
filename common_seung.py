@@ -8,6 +8,8 @@ import openpyxl
 import os  
 import json
 
+from PIL import Image
+
 ####################################################################################
 # 액셀 입출력을 위한 클래스
 class pyresult:
@@ -174,7 +176,17 @@ class psycopy_mouse:
         for e in events:
             self.pressed = False
             
-            
+
+class drawling_image(drawling_object):
+    def __init__(self, x, y, image, height = 1):
+        global win
+        image1 = Image.open(image)
+        mag1_size = image1.size
+        y_x = image1.size[0] / image1.size[1]
+        self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[y_x * height, height])
+        super().__init__(self.image)
+        
+        
 def inputParticipant():
     #참여자 ID 윈도우
     exp_info = {
@@ -193,6 +205,7 @@ win = None
 window = None
 def initWindow():
     #윈도우
+    global win, window
     win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
