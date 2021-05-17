@@ -201,6 +201,14 @@ def inputParticipant():
         core.quit()
     return exp_info['participant']
 
+
+def showExplanation(images):
+    for file_name in images:
+        image = drawling_image(0, 0, file_name)
+        window.append(image)
+        window.update_wait_key()
+        window.remove(image)
+        
 win = None
 window = None
 def initWindow():
