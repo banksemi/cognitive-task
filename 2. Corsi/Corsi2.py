@@ -130,7 +130,7 @@ stimulus_set = []
 result = pyresult(participant_id, 'Corsi')
 
 block_span = 0
-for trial_i in range(0, 7):
+for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
@@ -191,7 +191,13 @@ for trial_i in range(0, 7):
 
     
     if sum(corrects) == 0:
+        for i in range(trial_i+1, 8):
+            for j in [0, 1]:
+                result.write('trial_response', ['stop'], index=i * 2 + j)
+                result.write('trial_correct', 0, index=i * 2 + j)
+                result.write('trial_score', 0, index=i * 2 + j)
         break
+        
     if sum(corrects) == 2: # 2번 모두 성공
         block_span = trial_i + 2
         
