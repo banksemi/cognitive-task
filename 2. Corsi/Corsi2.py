@@ -87,8 +87,6 @@ window.append(back)
 box_size=30
 
 #상자 위치 (총 9개 제시)
-# box_positions = [[-26, -102], [98, -104], [-118, -63], [74, -28], [-45, -23], [-135, 31], [134, 44], [54, 92], [-11, 38]]
-# box_positions = [[40,150], [-150, 110], [140,100], [-80, 35], [40,0], [155, -50], [-170, -100], [-70, -130], [30, -115]]
 box_positions = [[130,155], [30, 145], [180,120], [70, 110], [140, 90], [195, 60], [15, 50], [75,20], [135, 30]]
 
 # box 매핑 
@@ -104,11 +102,14 @@ box_positions = [[i[0] * alpha, i[1] * alpha] for i in box_positions]
 box_size *= alpha
 
 # Instruction
+'''
 text_instruction = drawling_object(visual.TextStim(win, wrapWidth=30, pos=[0,0], text=_('instr'))) # Text object
 window.append(text_instruction)
 window.update_wait_key()
 window.remove(text_instruction)
-        
+
+'''
+
 boxes = []
 for box_pos in box_positions:
     box = drawling_box(box_pos[0], box_pos[1], box_size, color=block_color) # 0,180,0
@@ -166,7 +167,7 @@ for trial_i in range(0, 8):
                     if not (i+1 in responses):
                         responses.append(i+1)
                         
-            if window.isClickedObject(exit_box):
+            if window.isClickedObject(exit_box) or window.getPressKey('space'):
                 break
         
         if len(responses) < len(stimulus):
@@ -188,8 +189,6 @@ for trial_i in range(0, 8):
                 
         result.write('trial_score', score, index=trial_index)
         
-
-    
     if sum(corrects) == 0:
         for i in range(trial_i+1, 8):
             for j in [0, 1]:

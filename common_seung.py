@@ -33,6 +33,30 @@ class pyresult:
             'trial_response': ['C', 5],
             'trial_correct': ['D', 5],
             'trial_reaction_time': ['E', 5],
+        },
+        'DCCS': {
+            'trial1_accuracy': ['C', 2],
+            'trial1_reaction_time': ['D', 2],
+            'trial1_reaction_time_correct': ['E', 2],
+            'trial1_each_response': ['C', 5],
+            'trial1_each_correct': ['D', 5],
+            'trial1_each_time': ['E', 5],
+            
+            
+            'trial2_accuracy': ['F', 2],
+            'trial2_reaction_time': ['G', 2],
+            'trial2_reaction_time_correct': ['H', 2],
+            'trial2_each_response': ['C', 17],
+            'trial2_each_correct': ['D', 17],
+            'trial2_each_time': ['E', 17],
+            
+            
+            'trial3_accuracy': ['I', 2],
+            'trial3_reaction_time': ['J', 2],
+            'trial3_reaction_time_correct': ['K', 2],
+            'trial3_each_response': ['C', 29],
+            'trial3_each_correct': ['D', 29],
+            'trial3_each_time': ['E', 29],
         }
     }
     
@@ -186,6 +210,12 @@ class drawling_image(drawling_object):
         self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[y_x * height, height])
         super().__init__(self.image)
         
+class drawling_text(drawling_object):
+    def __init__(self, x, y, text, color, height = 1):
+        global win
+        
+        self.text = visual.TextStim(win, text=text, color=color, pos=[x, y], height=height)
+        super().__init__(self.text)
         
 def inputParticipant():
     #참여자 ID 윈도우
@@ -205,6 +235,7 @@ def inputParticipant():
 def showExplanation(images):
     for file_name in images:
         image = drawling_image(0, 0, file_name)
+        image.z = 999999
         window.append(image)
         window.update_wait_key()
         window.remove(image)
@@ -214,7 +245,7 @@ window = None
 def initWindow():
     #윈도우
     global win, window
-    win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
+    win = visual.Window([1600, 900], allowGUI=True, fullscr=True, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
 ####################################################################################

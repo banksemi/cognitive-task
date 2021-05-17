@@ -13,7 +13,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
-image_path = "./동물"
+image_path = "./이미지"
 image_list = []
 for i in os.listdir(image_path):
     image_list.append(os.path.join(image_path, i))
@@ -26,14 +26,7 @@ for i in os.listdir(image_path):
 participant_id = inputParticipant()
 win, window = initWindow()
 
-
-introduction = ["g1.png","g2.png","g3.png","g4.png"]
-for file_name in introduction:
-    image = drawling_image(0, 0, file_name)
-    window.append(image)
-    window.update_wait_key()
-    window.remove(image)
-
+showExplanation(["g1.png","g2.png","g3.png","g4.png"])
 
 orders = image_list * 5
 random.shuffle(orders)
