@@ -169,13 +169,26 @@ for trial_i in range(0, 7):
             if window.isClickedObject(exit_box):
                 break
         
+        if len(responses) < len(stimulus):
+            responses.append(0)
+            
         result.write('trial_response', responses, index=trial_index)
         result.write('trial_reaction_time', (datetime.now()-start).total_seconds(), index=trial_index)
         
-        
+            
         correct = 1 if (stimulus == responses) else 0
         corrects.append(correct)
+        
         result.write('trial_correct', correct, index=trial_index)
+        
+        score = 0
+        for i in zip(stimulus, responses):
+            if i[0] == i[1]:
+                score += 1
+                
+        result.write('trial_score', score, index=trial_index)
+        
+
     
     if sum(corrects) == 0:
         break

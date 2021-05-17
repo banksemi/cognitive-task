@@ -15,13 +15,13 @@ from PIL import Image
 class pyresult:
     value_table = {
         'Corsi': {
-            'total_score': ['B', 2],
-            'block_span': ['C', 2],
+            'block_span': ['D', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
             'trial_reaction_time': ['D', 5],
             'trial_correct': ['E', 5],
+            'trial_score': ['F', 5],
         },
         'Go, No-Go': {
             'inhibition': ['B', 2],
