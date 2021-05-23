@@ -117,14 +117,8 @@ for box_pos in box_positions:
     window.append(box)
 
     
-
-#'선택 완료' 버튼 박스
-exit_box = drawling_object(visual.Rect(win, pos=[0,-10], width=3, height=1))
+exit_box = drawling_image(+0.65, -0.4, "ok2.png", height=0.10) 
 window.append(exit_box)
-
-# '선택 완료'라는 텍스트의 위치 (버튼 박스 내)
-exit_text = drawling_object(visual.TextStim(win, pos = [0,-10], text = _('exit')))
-window.append(exit_text)
 
 # 사전 정의된 stimulus
 stimulus_set = []
@@ -140,7 +134,6 @@ for trial_i in range(0, 8):
         #시퀀스 제시
         window.mouse.setVisible(False)
         exit_box.setVisible(False)
-        exit_text.setVisible(False)
         
         window.update_wait_time(1)
 
@@ -154,7 +147,6 @@ for trial_i in range(0, 8):
         # 이제 참여자가 응답을 할 차례
         window.mouse.setVisible(True)
         exit_box.setVisible(True)
-        exit_text.setVisible(True)
         
         responses = []
         start = datetime.now()
