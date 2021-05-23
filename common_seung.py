@@ -27,8 +27,8 @@ class pyresult:
         'Go, No-Go': {
             'inhibition': ['B', 2],
             'score': ['C', 2],
-            'go_reaction_time': ['D', 2],
-            'nogo_reaction_time': ['E', 2],
+            'go_reaction_time': ['F', 2],
+            'nogo_reaction_time': ['G', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
