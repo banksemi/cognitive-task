@@ -154,6 +154,7 @@ for trial_i in range(0, 8):
 
         responses = []
         start = datetime.now()
+        last_block_clicked = start
         while True:
             window.update()
             for i, box in enumerate(boxes):
@@ -162,6 +163,7 @@ for trial_i in range(0, 8):
 
                     if not (i+1 in responses):
                         responses.append(i+1)
+                        last_block_clicked = datetime.now()
                         
             if window.isClickedObject(exit_box) or window.getPressKey('space'):
                 break
@@ -170,7 +172,8 @@ for trial_i in range(0, 8):
             responses.append(0)
             
         result.write('trial_response', responses, index=trial_index)
-        result.write('trial_reaction_time', (datetime.now()-start).total_seconds(), index=trial_index)
+        result.write('trial_reaction_time1', (last_block_clicked-start).total_seconds(), index=trial_index)
+        result.write('trial_reaction_time2', (datetime.now()-start).total_seconds(), index=trial_index)
         
             
         correct = 1 if (stimulus == responses) else 0
