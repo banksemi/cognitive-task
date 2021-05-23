@@ -87,7 +87,7 @@ def game(left=[], right=[], count=12):
     
 def save(index, xlsx, game_result):
     prefix = 'trial%d_' % index
-    result.write(prefix + 'accuracy', game_result['accuracy'])
+    result.write(prefix + 'score', game_result['score'])
     result.write(prefix + 'reaction_time', game_result['reaction_time'])
     result.write(prefix + 'reaction_time_correct', game_result['reaction_time_correct'])
     

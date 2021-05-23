@@ -36,7 +36,7 @@ class pyresult:
             'trial_reaction_time': ['E', 5],
         },
         'DCCS': {
-            'trial1_accuracy': ['C', 2],
+            'trial1_score': ['C', 2],
             'trial1_reaction_time': ['D', 2],
             'trial1_reaction_time_correct': ['E', 2],
             'trial1_each_response': ['C', 5],
@@ -44,7 +44,7 @@ class pyresult:
             'trial1_each_time': ['E', 5],
             
             
-            'trial2_accuracy': ['F', 2],
+            'trial2_score': ['F', 2],
             'trial2_reaction_time': ['G', 2],
             'trial2_reaction_time_correct': ['H', 2],
             'trial2_each_response': ['C', 17],
@@ -52,7 +52,7 @@ class pyresult:
             'trial2_each_time': ['E', 17],
             
             
-            'trial3_accuracy': ['I', 2],
+            'trial3_score': ['I', 2],
             'trial3_reaction_time': ['J', 2],
             'trial3_reaction_time_correct': ['K', 2],
             'trial3_each_response': ['C', 29],
