@@ -65,7 +65,7 @@ class pyresult:
         self.test_name = test_name
         self.participant_id = participant_id
         if output_path is None:
-            self.output_path = '../output/' + participant_id + datetime.now().strftime("%Y-%m-%d %H시 %M분 %S초")  +  '.xlsx'
+            self.output_path = '../output/' + participant_id + '-' + test_name + ' (' + datetime.now().strftime("%Y-%m-%d %H시 %M분 %S초")  +  ').xlsx'
 
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
