@@ -60,21 +60,25 @@ class pyresult:
         }
     }
     
-    def __init__(self, participant_id, test_name):
+    def __init__(self, participant_id, test_name, output_path = None):
         self.test_name = test_name
         self.participant_id = participant_id
-        self.output_path = '../output/' + participant_id + '.xlsx'
+        if output_path is None:
+            self.output_path = '../output/' + participant_id + datetime.now().strftime("%Y-%m-%d %H시 %M분 %S초")  +  '.xlsx'
+
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
         else:
-            self.workbook = openpyxl.load_workbook('../CBT_result.xlsx')
+            self.workbook = openpyxl.load_workbook('../template/' + test_name + '.xlsx')
         self.worksheet = self.workbook[self.test_name]
         
-    def write(self, name, value, index=0):
+    def write(self, name, value, index=0, autosave=True):
         position = self.value_table[self.test_name][name]
         if isinstance(value, list):
             value = str(value)
         self.worksheet[position[0] + str(position[1] + index)] = value
+        if autosave:
+            self.save()
     
     def read(self, name, index=0):
         position = self.value_table[self.test_name][name]
@@ -82,7 +86,7 @@ class pyresult:
         
     def save(self, reload=True):
         self.workbook.save(self.output_path)
-        self.__init__(self.participant_id, self.test_name)
+        self.__init__(self.participant_id, self.test_name, self.output_path)
         
     def close(self):
         self.workbook.close()
@@ -245,7 +249,7 @@ window = None
 def initWindow():
     #윈도우
     global win, window
-    win = visual.Window([1600, 900], allowGUI=True, fullscr=True, units='height', color=[255,255,255])
+    win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
 ####################################################################################
