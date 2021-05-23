@@ -9,16 +9,17 @@ import random
 import openpyxl
 import os  
 import json
+import winsound
+import threading
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
+
 # 모니터 크기에 따라 블럭 사이즈 변경
 alpha = 0.98 # 세로 해상도에 맞춰짐
 background_color = [255,255,255]
 block_color = [0,180,0]
-
-
 
 # background_color = [0,0,0]
 # block_color = [64, 71, 202]
@@ -147,7 +148,10 @@ for trial_i in range(0, 8):
         # 이제 참여자가 응답을 할 차례
         window.mouse.setVisible(True)
         exit_box.setVisible(True)
-        
+
+        # 비프음으로 인한 지연시간 제거
+        t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
+
         responses = []
         start = datetime.now()
         while True:
