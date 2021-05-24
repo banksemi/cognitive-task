@@ -165,7 +165,7 @@ for trial_i in range(0, 8):
                         responses.append(i+1)
                         last_block_clicked = datetime.now()
                         
-            if window.isClickedObject(exit_box) or window.getPressKey('space'):
+            if window.isClickedObject(exit_box) or window.getPressKey('space') or (datetime.now() - last_block_clicked).total_seconds() > 15:
                 break
         
         if len(responses) < len(stimulus):
