@@ -14,6 +14,14 @@ from PIL import Image
 # 액셀 입출력을 위한 클래스
 class pyresult:
     value_table = {
+        'Digit Span': {
+            'block_span': ['D', 2],
+            
+            'trial_stimulus': ['B', 5],
+            'trial_response': ['C', 5],
+            'trial_correct': ['D', 5],
+            'trial_score': ['E', 5],
+        },
         'Corsi': {
             'block_span': ['D', 2],
             
@@ -221,6 +229,8 @@ class drawling_text(drawling_object):
         
         self.text = visual.TextStim(win, text=text, color=color, pos=[x, y], height=height)
         super().__init__(self.text)
+    def setText(self, text):
+        self.text.setText(text)
         
 def inputParticipant():
     #참여자 ID 윈도우
