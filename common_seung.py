@@ -233,18 +233,23 @@ class drawling_text(drawling_object):
         self.text.setText(text)
         
 def inputParticipant():
-    #참여자 ID 윈도우
-    exp_info = {
-        'participant':'participant_ID',
-    } 
+    with open('../id.txt', 'r') as f:
+        json_data = json.load(f)
+
     # Setting some parameters on GUI
-    dlg = gui.DlgFromDict(exp_info, title='Corsi Test',
-        order = ['participant'],
-        tip = {'participant':'Identifier of the participant.',})
+    exp_info = {
+        'Participant ID': json_data['last_id'],
+    }
+    dlg = gui.DlgFromDict(exp_info, title='Corsi Test',)
     if not dlg.OK:
         print ('User Cancelled')
         core.quit()
-    return exp_info['participant']
+    id = exp_info['Participant ID']
+    json_data['last_id'] = id
+    with open('../id.txt', 'w', encoding='utf-8') as make_file:
+        json.dump(json_data, make_file, indent="\t")
+
+    return id
 
 
 def showExplanation(images):
