@@ -110,8 +110,7 @@ for trial_i in range(0, 8):
         
     if sum(corrects) == 2: # 2번 모두 성공
         block_span = trial_i + 2
-        
-result.write('block_span', block_span)
+        result.write('block_span', block_span)
 
 result.save()
 result.close()
