@@ -5,7 +5,6 @@ from psychopy import visual, core, event, gui
 import random
 import winsound
 from psychopy.tools import filetools
-import filename
 import numpy as np
 import pandas as pd 
 

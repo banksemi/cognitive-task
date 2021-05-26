@@ -6,9 +6,9 @@ from PIL import Image
 import random
 import winsound
 import sys             #sys.exit()
-import DCCS_Color_Info
 
 import numpy as np
+import threading
 
 import os, sys
 sys.path.append((os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
