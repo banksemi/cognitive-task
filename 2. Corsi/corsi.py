@@ -143,7 +143,7 @@ def trial(stimulus):
     exit_box.setVisible(True)
 
     # 비프음으로 인한 지연시간 제거
-    t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
+    t = threading.Thread(target=lambda: winsound.Beep(580,500)).start()
 
     responses = []
     start = datetime.now()

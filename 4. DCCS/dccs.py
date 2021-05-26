@@ -57,6 +57,8 @@ def game(left=[], right=[], count=12):
     for right_answer, image in orders:
         window.update_wait_time(0.5)
         image.setVisible(True)
+        threading.Thread(target=lambda: winsound.Beep(580,500)).start()
+
         start = datetime.now()
         while True:
             window.update()
