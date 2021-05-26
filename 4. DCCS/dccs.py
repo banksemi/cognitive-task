@@ -18,8 +18,8 @@ participant_id = inputParticipant()
 win, window = initWindow()
 
 
-basic_left_image = drawling_image(-0.35, +0.2, "Blue_rabbit.png", height=0.31) 
-basic_right_image = drawling_image(+0.35, +0.2, "Red_boat.png", height=0.31) 
+basic_left_image = drawling_image(-0.35, +0.2, "Blue_rabbit.png", height=0.35) 
+basic_right_image = drawling_image(+0.35, +0.2, "Red_boat.png", height=0.35) 
 window.append(basic_left_image)
 window.append(basic_right_image)
 
@@ -38,12 +38,12 @@ def game(left=[], right=[], count=12):
     orders = []
     images = []
     for i in left:
-        image = drawling_image(0, -0.2, i, height=0.31)
+        image = drawling_image(0, -0.2, i, height=0.35)
         images.append(image)
         orders.append(('left', image))
         
     for i in right:
-        image = drawling_image(0, -0.2, i, height=0.31)
+        image = drawling_image(0, -0.2, i, height=0.35)
         images.append(image)
         orders.append(('right', image))
         
