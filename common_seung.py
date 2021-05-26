@@ -73,12 +73,12 @@ class pyresult:
         self.test_name = test_name
         self.participant_id = participant_id
         if output_path is None:
-            self.output_path = '../output/' + participant_id + '-' + test_name + ' (' + datetime.now().strftime("%Y-%m-%d %H시 %M분 %S초")  +  ').xlsx'
+            self.output_path = '../output/' + participant_id + '.xlsx'
 
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
         else:
-            self.workbook = openpyxl.load_workbook('../template/' + test_name + '.xlsx')
+            self.workbook = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
         self.worksheet = self.workbook[self.test_name]
         
     def write(self, name, value, index=0, autosave=True):
