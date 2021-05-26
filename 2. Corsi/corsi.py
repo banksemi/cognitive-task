@@ -154,9 +154,9 @@ def trial(stimulus):
             if window.isClickedObject(box):
                 box.setWhiteColor(0.2, effect=True)
 
-                if not (i+1 in responses):
-                    responses.append(i+1)
-                    last_block_clicked = datetime.now()
+
+                responses.append(i+1)
+                last_block_clicked = datetime.now()
                         
         if window.isClickedObject(exit_box) or window.getPressKey('space') or (datetime.now() - last_block_clicked).total_seconds() > 15:
             break
