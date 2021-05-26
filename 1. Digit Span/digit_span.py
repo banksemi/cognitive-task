@@ -33,13 +33,14 @@ result = pyresult(participant_info, 'Digit Span')
 
 block_span = 0
 
-input_text = drawling_text(0.8-0.05, -0.47, "INPUT_TEXT", [0,0,0], height = 0.03) # Text object
+input_text = drawling_text(0.8-0.1, -0.45, "", [0,0,0], height = 0.045) # Text object
 window.append(input_text)
 
-def trial(stimulus):
+def trial(stimulus, input_show = False):
     trial_result = {}
     audio_image.setVisible(True);
     speak_image.setVisible(False);
+    input_text.setText("")
     window.update_wait_time(1)
 
     for index in stimulus:
@@ -70,7 +71,9 @@ def trial(stimulus):
         if window.getPressKey('num_enter') or window.getPressKey('return') or (datetime.now() - last_block_clicked).total_seconds() > 15:
             break
             
-        input_text.setText(''.join(['*'] * len(responses)))
+        input_text.setText(''.join([str(i) for i in responses]))
+        if len(responses) == 0 and input_show == True:
+            input_text.setText("INPUT")
         
     if len(responses) < len(stimulus):
         responses.append(0)
@@ -94,7 +97,7 @@ for trial_i in range(0, 8):
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
         stimulus = json.loads(result.read('trial_stimulus', trial_index))
-        trial_result = trial(stimulus)
+        trial_result = trial(stimulus, input_show=(trial_i==0 and trial_j==0))
         for i in trial_result:
             result.write(i, trial_result[i], index=trial_index)
 
