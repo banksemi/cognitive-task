@@ -118,7 +118,7 @@ for box_pos in box_positions:
     window.append(box)
 
     
-exit_box = drawling_image(+0.65, -0.4, "ok2.png", height=0.10) 
+exit_box = drawling_image(+0.65, -0.35, "ok2.png", height=0.20) 
 window.append(exit_box)
 
 # 사전 정의된 stimulus
