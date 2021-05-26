@@ -21,6 +21,12 @@ from common_seung import *
 participant_id = inputParticipant()
 win, window = initWindow()
 
+audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.5) 
+window.append(audio_image)
+
+speak_image = drawling_image(0, 0, "./제시화면/speak.jpg", height=0.5) 
+window.append(speak_image)
+
 # 사전 정의된 stimulus
 stimulus_set = []
 result = pyresult(participant_id, 'Digit Span')
@@ -35,6 +41,8 @@ for trial_i in range(0, 8):
         trial_index = trial_i * 2 + trial_j
         stimulus = json.loads(result.read('trial_stimulus', trial_index))
         
+        audio_image.setVisible(True);
+        speak_image.setVisible(False);
         window.update_wait_time(1)
 
         for index in stimulus:
@@ -45,6 +53,8 @@ for trial_i in range(0, 8):
 
         # 비프음으로 인한 지연시간 제거
         t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
+        audio_image.setVisible(False);
+        speak_image.setVisible(True);
 
         responses = []
         start = datetime.now()
