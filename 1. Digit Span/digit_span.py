@@ -43,10 +43,13 @@ def trial(stimulus, input_show = False):
     input_text.setText("")
     window.update_wait_time(1)
 
-    for index in stimulus:
-        winsound.PlaySound("./음성/%d.wav" % index, winsound.SND_FILENAME)
+    for i, index in enumerate(stimulus):
+        app  = ''
+        if i == len(stimulus) - 1:
+            app = "_저음"
+        winsound.PlaySound("./음성/%d%s.wav" % (index, app), winsound.SND_FILENAME)
 
-        window.update_wait_time(0.3)
+        window.update_wait_time(0.7)
 
 
     # 비프음으로 인한 지연시간 제거
