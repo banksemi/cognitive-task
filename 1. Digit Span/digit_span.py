@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
 
-participant_id = inputParticipant()
+participant_info = inputParticipant()
 win, window = initWindow()
 
 audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.5) 
@@ -29,7 +29,7 @@ window.append(speak_image)
 
 # 사전 정의된 stimulus
 stimulus_set = []
-result = pyresult(participant_id, 'Digit Span')
+result = pyresult(participant_info, 'Digit Span')
 
 block_span = 0
 

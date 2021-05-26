@@ -76,7 +76,7 @@ def _(string):
     # You should use texts dictionary to strore the strings, and set exp_info['language'] to specify the language
     return texts[string]['kor']
 
-participant_id = inputParticipant()
+participant_info = inputParticipant()
 win, window = initWindow()
 
 back = drawling_box(0, 0, 200, color=background_color)
@@ -123,7 +123,7 @@ window.append(exit_box)
 
 # 사전 정의된 stimulus
 stimulus_set = []
-result = pyresult(participant_id, 'Corsi')
+result = pyresult(participant_info, 'Corsi')
 
 
 def trial(stimulus):

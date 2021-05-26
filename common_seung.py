@@ -15,7 +15,11 @@ from PIL import Image
 class pyresult:
     value_table = {
         'Digit Span': {
-            'block_span': ['D', 2],
+            'Participant ID': ['A',2],
+            'First name': ['B',2],
+            'Last name': ['C',2],
+
+            'block_span': ['F', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -23,7 +27,11 @@ class pyresult:
             'trial_score': ['E', 5],
         },
         'Corsi': {
-            'block_span': ['D', 2],
+            'Participant ID': ['A',2],
+            'First name': ['B',2],
+            'Last name': ['C',2],
+
+            'block_span': ['F', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -33,10 +41,14 @@ class pyresult:
             'trial_score': ['G', 5],
         },
         'Go, No-Go': {
-            'inhibition': ['B', 2],
-            'score': ['C', 2],
-            'go_reaction_time': ['F', 2],
-            'nogo_reaction_time': ['G', 2],
+            'Participant ID': ['A',2],
+            'First name': ['B',2],
+            'Last name': ['C',2],
+
+            'inhibition': ['D', 2],
+            'score': ['E', 2],
+            'go_reaction_time': ['H', 2],
+            'nogo_reaction_time': ['I', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -44,42 +56,48 @@ class pyresult:
             'trial_reaction_time': ['E', 5],
         },
         'DCCS': {
-            'trial1_score': ['C', 2],
-            'trial1_reaction_time': ['D', 2],
-            'trial1_reaction_time_correct': ['E', 2],
+            'Participant ID': ['B',2],
+            'First name': ['C',2],
+            'Last name': ['D',2],
+
+            'trial1_score': ['E', 2],
+            'trial1_reaction_time': ['F', 2],
+            'trial1_reaction_time_correct': ['G', 2],
             'trial1_each_response': ['C', 5],
             'trial1_each_correct': ['D', 5],
             'trial1_each_time': ['E', 5],
             
             
-            'trial2_score': ['F', 2],
-            'trial2_reaction_time': ['G', 2],
-            'trial2_reaction_time_correct': ['H', 2],
+            'trial2_score': ['H', 2],
+            'trial2_reaction_time': ['I', 2],
+            'trial2_reaction_time_correct': ['J', 2],
             'trial2_each_response': ['C', 17],
             'trial2_each_correct': ['D', 17],
             'trial2_each_time': ['E', 17],
             
             
-            'trial3_score': ['I', 2],
-            'trial3_reaction_time': ['J', 2],
-            'trial3_reaction_time_correct': ['K', 2],
+            'trial3_score': ['K', 2],
+            'trial3_reaction_time': ['L', 2],
+            'trial3_reaction_time_correct': ['M', 2],
             'trial3_each_response': ['C', 29],
             'trial3_each_correct': ['D', 29],
             'trial3_each_time': ['E', 29],
         }
     }
     
-    def __init__(self, participant_id, test_name, output_path = None):
+    def __init__(self, participant_info, test_name, output_path = None):
         self.test_name = test_name
-        self.participant_id = participant_id
+        self.participant_info = participant_info
         if output_path is None:
-            self.output_path = '../output/' + participant_id + '.xlsx'
+            self.output_path = '../output/' + participant_info['Participant ID'] + '.xlsx'
 
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
         else:
             self.workbook = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
         self.worksheet = self.workbook[self.test_name]
+        for i in participant_info:
+            self.write(i, participant_info[i], autosave=False)
         
     def write(self, name, value, index=0, autosave=True):
         position = self.value_table[self.test_name][name]
@@ -95,7 +113,7 @@ class pyresult:
         
     def save(self, reload=True):
         self.workbook.save(self.output_path)
-        self.__init__(self.participant_id, self.test_name, self.output_path)
+        self.__init__(self.participant_info, self.test_name, self.output_path)
         
     def close(self):
         self.workbook.close()
@@ -236,20 +254,15 @@ def inputParticipant():
     with open('../id.txt', 'r') as f:
         json_data = json.load(f)
 
-    # Setting some parameters on GUI
-    exp_info = {
-        'Participant ID': json_data['last_id'],
-    }
-    dlg = gui.DlgFromDict(exp_info, title='Corsi Test',)
+    dlg = gui.DlgFromDict(json_data, title='Corsi Test', order = ['Participant ID', 'First name', 'Last name'])
     if not dlg.OK:
         print ('User Cancelled')
         core.quit()
-    id = exp_info['Participant ID']
-    json_data['last_id'] = id
+    id = json_data['Participant ID']
     with open('../id.txt', 'w', encoding='utf-8') as make_file:
         json.dump(json_data, make_file, indent="\t")
 
-    return id
+    return json_data
 
 
 def showExplanation(images):

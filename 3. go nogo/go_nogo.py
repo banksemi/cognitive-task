@@ -22,7 +22,7 @@ for i in os.listdir(image_path):
         
         
         
-participant_id = inputParticipant()
+participant_info = inputParticipant()
 win, window = initWindow()
 
 showExplanation(["g1.png","g2.png","g3.png","g4.png"])
@@ -30,7 +30,7 @@ showExplanation(["g1.png","g2.png","g3.png","g4.png"])
 orders = image_list * 5
 random.shuffle(orders)
     
-result = pyresult(participant_id, 'Go, No-Go')
+result = pyresult(participant_info, 'Go, No-Go')
 
 score = 0
 inhibition = 0
@@ -62,8 +62,8 @@ for i, image_name in enumerate(orders):
             response_go = False
             
         if response_go != 'None':
-            result.write('trial_stimulus', 'Go' if go else 'NoGo', index=i)
-            result.write('trial_response', 'Go' if response_go else 'NoGo', index=i)
+            result.write('trial_stimulus', 'Go' if go else 'NoGo', index=i, autosave=False)
+            result.write('trial_response', 'Go' if response_go else 'NoGo', index=i, autosave=False)
             if go:
                 result.write('trial_correct', 'Y' if go == response_go else 'N', index=i)
             else:

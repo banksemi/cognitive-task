@@ -14,7 +14,7 @@ import os, sys
 sys.path.append((os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from common_seung import *
 
-participant_id = inputParticipant()
+participant_info = inputParticipant()
 win, window = initWindow()
 
 
@@ -99,7 +99,7 @@ def save(index, xlsx, game_result):
         result.write(prefix + 'each_time', row[2], index=i)
     
 # 기본값 Blue_rabbit, Red_boat
-result = pyresult(participant_id, 'DCCS')
+result = pyresult(participant_info, 'DCCS')
 
 # 색깔로 맞추기
 showExplanation(["T1.png", "T2.png", "T3.png", "T4.png", "T5.png", "T6.png", "T7.png", "T8.png"])
