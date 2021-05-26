@@ -125,68 +125,71 @@ window.append(exit_box)
 stimulus_set = []
 result = pyresult(participant_id, 'Corsi')
 
+
+def trial(stimulus):
+    trial_result = {}
+    # 시퀀스 제시
+    window.mouse.setVisible(False)
+    exit_box.setVisible(False)
+        
+    window.update_wait_time(1)
+
+    for index in stimulus:
+        boxes[index-1].setWhiteColor(1)
+        window.update_wait_time(1)
+        window.update_wait_time(0.2)
+
+    window.mouse.setVisible(True)
+    exit_box.setVisible(True)
+
+    # 비프음으로 인한 지연시간 제거
+    t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
+
+    responses = []
+    start = datetime.now()
+    last_block_clicked = start
+    while True:
+        window.update()
+        for i, box in enumerate(boxes):
+            if window.isClickedObject(box):
+                box.setWhiteColor(0.2, effect=True)
+
+                if not (i+1 in responses):
+                    responses.append(i+1)
+                    last_block_clicked = datetime.now()
+                        
+        if window.isClickedObject(exit_box) or window.getPressKey('space') or (datetime.now() - last_block_clicked).total_seconds() > 15:
+            break
+        
+    if len(responses) < len(stimulus):
+        responses.append(0)
+    
+    correct = 1 if (stimulus == responses) else 0
+    corrects.append(correct)
+
+    score = 0
+    for i in zip(stimulus, responses):
+        if i[0] == i[1]:
+            score += 1
+
+    trial_result['trial_response'] = responses;
+    trial_result['trial_reaction_time1'] = (last_block_clicked-start).total_seconds();
+    trial_result['trial_reaction_time2'] = (datetime.now()-start).total_seconds();
+    trial_result['trial_correct'] = correct
+    trial_result['trial_score'] = score
+    return trial_result
+
 block_span = 0
 for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
         stimulus = json.loads(result.read('trial_stimulus', trial_index))
-        
-        #시퀀스 제시
-        window.mouse.setVisible(False)
-        exit_box.setVisible(False)
-        
-        window.update_wait_time(1)
+        trial_result = trial(stimulus)
+        for i in trial_result:
+            result.write(i, trial_result[i], index=trial_index)
 
-        for index in stimulus:
-            boxes[index-1].setWhiteColor(1)
-            window.update_wait_time(1)
-            
-            window.update_wait_time(0.2)
-
-        # Participant chooses boxes
-        # 이제 참여자가 응답을 할 차례
-        window.mouse.setVisible(True)
-        exit_box.setVisible(True)
-
-        # 비프음으로 인한 지연시간 제거
-        t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
-
-        responses = []
-        start = datetime.now()
-        last_block_clicked = start
-        while True:
-            window.update()
-            for i, box in enumerate(boxes):
-                if window.isClickedObject(box):
-                    box.setWhiteColor(0.2, effect=True)
-
-                    if not (i+1 in responses):
-                        responses.append(i+1)
-                        last_block_clicked = datetime.now()
-                        
-            if window.isClickedObject(exit_box) or window.getPressKey('space') or (datetime.now() - last_block_clicked).total_seconds() > 15:
-                break
-        
-        if len(responses) < len(stimulus):
-            responses.append(0)
-            
-        result.write('trial_response', responses, index=trial_index)
-        result.write('trial_reaction_time1', (last_block_clicked-start).total_seconds(), index=trial_index)
-        result.write('trial_reaction_time2', (datetime.now()-start).total_seconds(), index=trial_index)
-        
-            
-        correct = 1 if (stimulus == responses) else 0
-        corrects.append(correct)
-        
-        result.write('trial_correct', correct, index=trial_index)
-        
-        score = 0
-        for i in zip(stimulus, responses):
-            if i[0] == i[1]:
-                score += 1
-                
-        result.write('trial_score', score, index=trial_index)
+        corrects.append(trial_result['trial_correct'])
         
     if sum(corrects) == 0:
         for i in range(trial_i+1, 8):
