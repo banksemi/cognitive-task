@@ -165,8 +165,6 @@ def trial(stimulus):
         responses.append(0)
     
     correct = 1 if (stimulus == responses) else 0
-    corrects.append(correct)
-
     score = 0
     for i in zip(stimulus, responses):
         if i[0] == i[1]:
