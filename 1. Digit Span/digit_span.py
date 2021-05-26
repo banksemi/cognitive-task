@@ -33,7 +33,7 @@ result = pyresult(participant_id, 'Digit Span')
 
 block_span = 0
 
-input_text = drawling_text(0, -0.49, "INPUT_TEXT", [0,0,0], height = 0.01) # Text object
+input_text = drawling_text(0.8-0.05, -0.47, "INPUT_TEXT", [0,0,0], height = 0.03) # Text object
 window.append(input_text)
 
 def trial(stimulus):
