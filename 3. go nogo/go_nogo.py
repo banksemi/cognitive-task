@@ -38,7 +38,7 @@ inhibition = 0
 go_reaction_time = []
 nogo_reaction_time = []
 for i, image_name in enumerate(orders):
-    window.update_wait_time(0.5)
+
     image = drawling_image(0, 0, image_name, height=1) 
     window.append(image)
     go = not(os.path.basename(image_name).startswith('nogo'))
