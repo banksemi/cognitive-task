@@ -37,10 +37,16 @@ inhibition = 0
 
 go_reaction_time = []
 nogo_reaction_time = []
+
+images = {}
+for i in set(orders):
+    images[i] = drawling_image(0, 0, i, height=1)
+    images[i].setVisible(False)
+    window.append(images[i])
+    
 for i, image_name in enumerate(orders):
 
-    image = drawling_image(0, 0, image_name, height=1) 
-    window.append(image)
+    images[image_name].setVisible(True)
     go = not(os.path.basename(image_name).startswith('nogo'))
     
     start = datetime.now()
@@ -77,7 +83,7 @@ for i, image_name in enumerate(orders):
                     nogo_reaction_time.append(time)
             break
             
-    window.remove(image)
+    images[image_name].setVisible(False)
     
 result.write('inhibition', inhibition)
 result.write('score', score)
