@@ -275,6 +275,8 @@ def inputParticipant():
 
 
 def showExplanation(images):
+    if not isinstance(images, list):
+        images = [images]
     for file_name in images:
         image = drawling_image(0, 0, file_name)
         image.z = 999999

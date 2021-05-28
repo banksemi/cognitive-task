@@ -95,6 +95,22 @@ def trial(stimulus, input_show = False):
     return trial_result
 
 
+explaning = ['./튜토리얼/Digit Span(A)_T%d.PNG' % i for i in range(0,30)]
+showExplanation(explaning[1:1+4])
+while True:
+    trial_result = trial([3,5])
+    if trial_result['trial_correct'] == 1:
+        showExplanation(explaning[5])
+    else:
+        showExplanation(explaning[6])
+
+    trial_result = trial([9,4])
+    if trial_result['trial_correct'] == 1:
+        showExplanation(explaning[8])
+        break
+    else:
+        showExplanation(explaning[7])
+
 for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
