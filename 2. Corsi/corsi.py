@@ -102,14 +102,6 @@ box_size /= 205
 box_positions = [[i[0] * alpha, i[1] * alpha] for i in box_positions]
 box_size *= alpha
 
-# Instruction
-'''
-text_instruction = drawling_object(visual.TextStim(win, wrapWidth=30, pos=[0,0], text=_('instr'))) # Text object
-window.append(text_instruction)
-window.update_wait_key()
-window.remove(text_instruction)
-
-'''
 
 boxes = []
 for box_pos in box_positions:
@@ -126,7 +118,7 @@ stimulus_set = []
 result = pyresult(participant_info, 'Corsi')
 
 
-def trial(stimulus):
+def trial(stimulus, only_show=False):
     trial_result = {}
     # 시퀀스 제시
     window.mouse.setVisible(False)
@@ -141,6 +133,9 @@ def trial(stimulus):
 
     window.mouse.setVisible(True)
     exit_box.setVisible(True)
+
+    if only_show:
+        return
 
     # 비프음으로 인한 지연시간 제거
     t = threading.Thread(target=lambda: winsound.Beep(580,500)).start()
@@ -158,7 +153,10 @@ def trial(stimulus):
                 responses.append(i+1)
                 last_block_clicked = datetime.now()
                         
-        if window.isClickedObject(exit_box) or window.getPressKey('space') or (datetime.now() - last_block_clicked).total_seconds() > 15:
+        if window.isClickedObject(exit_box) or window.getPressKey('space'):
+            break
+        if (datetime.now() - last_block_clicked).total_seconds() > 15:
+            trial_result['nosave_timeout'] = True;
             break
         
     if len(responses) < len(stimulus):
@@ -177,6 +175,31 @@ def trial(stimulus):
     trial_result['trial_score'] = score
     return trial_result
 
+explaning = ['./튜토리얼/Corsi Block(A)_T%d.PNG' % i for i in range(0,30)]
+
+showExplanation(explaning[1:1+7])
+while True:
+    trial_result = trial([4,5])
+    if 'nosave_timeout' in trial_result: # 무응답
+        showExplanation(explaning[9:9+1])
+        continue
+    elif trial_result['trial_correct'] == 0: # 오답
+        showExplanation(explaning[10])
+        trial([4,5], only_show = True)
+        showExplanation(explaning[11:11+3])
+    else: # 정답
+        showExplanation(explaning[8])
+    trial_result = trial([8, 6])
+    if trial_result['trial_correct'] == 1: # 정답
+        showExplanation(explaning[18])
+        break
+    else:
+        showExplanation(explaning[14])
+        trial([8, 6], only_show = True)
+        showExplanation(explaning[15:15+3])
+        continue
+
+# 본시행
 block_span = 0
 for trial_i in range(0, 8):
     corrects = []
