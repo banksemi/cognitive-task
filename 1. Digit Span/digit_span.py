@@ -116,7 +116,7 @@ for trial_i in range(0, 8):
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
         stimulus = json.loads(result.read('trial_stimulus', trial_index))
-        trial_result = trial(stimulus, input_show=(trial_i==0 and trial_j==0))
+        trial_result = trial(stimulus)
         for i in trial_result:
             result.write(i, trial_result[i], index=trial_index)
 
