@@ -176,11 +176,15 @@ class window_manager:
             if i.visible:
                 i.draw()
             
-    def update_wait_key(self):
+    def update_wait_key(self, key=None):
         while True:
             self.update()
-            if len(self.input_keys) > 0:
-                return
+            if key is None:
+                if len(self.input_keys) > 0:
+                    return
+            else:
+                if self.getPressKey(key):
+                    return
                 
     def update_wait_time(self, seconds=1):
         start_time = datetime.now()
@@ -270,7 +274,7 @@ def showExplanation(images):
         image = drawling_image(0, 0, file_name)
         image.z = 999999
         window.append(image)
-        window.update_wait_key()
+        window.update_wait_key('return')
         window.remove(image)
         
 win = None
