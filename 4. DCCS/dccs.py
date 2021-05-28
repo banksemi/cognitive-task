@@ -97,7 +97,7 @@ def save(index, xlsx, game_result):
         result.write(prefix + 'each_response', row[0], index=i)
         result.write(prefix + 'each_correct', row[1], index=i)
         result.write(prefix + 'each_time', row[2], index=i)
-    
+    result.save()
 # 기본값 Blue_rabbit, Red_boat
 result = pyresult(participant_info, 'DCCS')
 

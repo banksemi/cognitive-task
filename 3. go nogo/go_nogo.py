@@ -62,8 +62,8 @@ for i, image_name in enumerate(orders):
             response_go = False
             
         if response_go != 'None':
-            result.write('trial_stimulus', 'Go' if go else 'NoGo', index=i, autosave=False)
-            result.write('trial_response', 'Go' if response_go else 'NoGo', index=i, autosave=False)
+            result.write('trial_stimulus', 'Go' if go else 'NoGo', index=i)
+            result.write('trial_response', 'Go' if response_go else 'NoGo', index=i)
             if go:
                 result.write('trial_correct', 'Y' if go == response_go else 'N', index=i)
             else:
@@ -82,6 +82,7 @@ for i, image_name in enumerate(orders):
                 else:
                     nogo_reaction_time.append(time)
             break
+            result.save()
             
     images[image_name].setVisible(False)
     
@@ -93,4 +94,5 @@ if len(go_reaction_time) > 0:
 if len(nogo_reaction_time) > 0:
     result.write('nogo_reaction_time', np.array(nogo_reaction_time).mean())
 result.save()
+result.close()
                 

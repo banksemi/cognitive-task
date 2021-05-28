@@ -85,27 +85,32 @@ class pyresult:
         }
     }
     
-    def __init__(self, participant_info, test_name, output_path = None):
+    def __init__(self, participant_info, test_name, reset = True):
         self.test_name = test_name
         self.participant_info = participant_info
-        if output_path is None:
-            self.output_path = '../output/' + participant_info['Participant ID'] + '.xlsx'
+        self.output_path = '../output/' + participant_info['Participant ID'] + '.xlsx'
 
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
+
+            if reset:
+                original = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
+                for i in 'ABCDEFGHIJKLMN':
+                    for j in range(1,100):
+                        self.workbook[self.test_name][i + str(j)] = original[self.test_name][i + str(j)].value
+                
+                original.close()
         else:
             self.workbook = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
         self.worksheet = self.workbook[self.test_name]
         for i in participant_info:
-            self.write(i, participant_info[i], autosave=False)
+            self.write(i, participant_info[i])
         
-    def write(self, name, value, index=0, autosave=True):
+    def write(self, name, value, index=0):
         position = self.value_table[self.test_name][name]
         if isinstance(value, list):
             value = str(value)
         self.worksheet[position[0] + str(position[1] + index)] = value
-        if autosave:
-            self.save()
     
     def read(self, name, index=0):
         position = self.value_table[self.test_name][name]
@@ -113,7 +118,7 @@ class pyresult:
         
     def save(self, reload=True):
         self.workbook.save(self.output_path)
-        self.__init__(self.participant_info, self.test_name, self.output_path)
+        self.__init__(self.participant_info, self.test_name, reset= False)
         
     def close(self):
         self.workbook.close()

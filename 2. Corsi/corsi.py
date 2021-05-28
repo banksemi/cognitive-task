@@ -188,6 +188,7 @@ for trial_i in range(0, 8):
             result.write(i, trial_result[i], index=trial_index)
 
         corrects.append(trial_result['trial_correct'])
+        result.save()
         
     if sum(corrects) == 0:
         for i in range(trial_i+1, 8):
@@ -200,6 +201,7 @@ for trial_i in range(0, 8):
     if sum(corrects) == 2: # 2번 모두 성공
         block_span = trial_i + 2
         result.write('block_span', block_span)
+    result.save()
 
 result.save()
 result.close()
