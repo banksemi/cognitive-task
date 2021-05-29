@@ -16,8 +16,8 @@ class pyresult:
     value_table = {
         'Digit Span': {
             'Participant ID': ['A',2],
-            'First name': ['B',2],
-            'Last name': ['C',2],
+            'Family name': ['B',2],
+            'First name': ['C',2],
 
             'block_span': ['F', 2],
             
@@ -28,8 +28,8 @@ class pyresult:
         },
         'Corsi': {
             'Participant ID': ['A',2],
-            'First name': ['B',2],
-            'Last name': ['C',2],
+            'Family name': ['B',2],
+            'First name': ['C',2],
 
             'block_span': ['F', 2],
             
@@ -42,8 +42,8 @@ class pyresult:
         },
         'Go, No-Go': {
             'Participant ID': ['A',2],
-            'First name': ['B',2],
-            'Last name': ['C',2],
+            'Family name': ['B',2],
+            'First name': ['C',2],
 
             'inhibition': ['D', 2],
             'score': ['E', 2],
@@ -57,8 +57,8 @@ class pyresult:
         },
         'DCCS': {
             'Participant ID': ['B',2],
-            'First name': ['C',2],
-            'Last name': ['D',2],
+            'Family name': ['C',2],
+            'First name': ['D',2],
 
             'trial1_score': ['E', 2],
             'trial1_reaction_time': ['F', 2],
@@ -88,7 +88,7 @@ class pyresult:
     def __init__(self, participant_info, test_name, reset = True):
         self.test_name = test_name
         self.participant_info = participant_info
-        self.output_path = '../output/' + participant_info['Participant ID'] + '.xlsx'
+        self.output_path = '../output/%s_%s_%s_CBT.xlsx' % (participant_info['Participant ID'], participant_info['Family name'], participant_info['First name'])
 
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
@@ -263,7 +263,7 @@ def inputParticipant():
     with open('../id.txt', 'r') as f:
         json_data = json.load(f)
 
-    dlg = gui.DlgFromDict(json_data, title='Corsi Test', order = ['Participant ID', 'First name', 'Last name'])
+    dlg = gui.DlgFromDict(json_data, title='Corsi Test', order = ['Participant ID', 'Family name', 'First name'])
     if not dlg.OK:
         print ('User Cancelled')
         core.quit()

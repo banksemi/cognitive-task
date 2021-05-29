@@ -1,5 +1,5 @@
 {
 	"Participant ID": "#uiouuu",
-	"First name": "45",
-	"Last name": "14"
+	"First name": "\uc2b9\ud654",
+	"Family name": "\uc774"
 }
