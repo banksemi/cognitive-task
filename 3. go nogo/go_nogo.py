@@ -13,22 +13,39 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
 image_path = "./이미지"
-image_list = []
+
+go_image_list = []
+nogo_image_list = []
 for i in os.listdir(image_path):
-    image_list.append(os.path.join(image_path, i))
-    if i.startswith('nogo'): # nogo 이미지는 두번
-        image_list.append(os.path.join(image_path, i))
+    if i.startswith('nogo'):
+        nogo_image_list.append(os.path.join(image_path, i))
+    else:
+        go_image_list.append(os.path.join(image_path, i))
+
     
-        
-        
+last = None
+orders = []
+for i in range(0,5):
+    image_list = go_image_list + nogo_image_list * 2
+
+    while True:
+        random.shuffle(image_list)
+        # 연속해서 같은 이미지가 있는 경우 다시 섞기
+        reshuffle = False
+        for j in range(0, len(image_list)-1):
+            if image_list[j] == image_list[j+1]:
+                reshuffle = True
+        if reshuffle:
+            continue
+        if image_list[0] != last:
+            last = image_list[-1]
+            orders.extend(image_list)
+            break
         
 participant_info = inputParticipant()
 win, window = initWindow()
 
 showExplanation(["g1.png","g2.png","g3.png","g4.png"])
-
-orders = image_list * 5
-random.shuffle(orders)
     
 result = pyresult(participant_info, 'Go, No-Go')
 
