@@ -33,7 +33,7 @@ result = pyresult(participant_info, 'Digit Span')
 
 block_span = 0
 
-input_text = drawling_text(0.8-0.1, -0.45, "", [0,0,0], height = 0.045) # Text object
+input_text = drawling_text(0.8-0.1, -0.45, "", [0,0,0], height = 0.035) # Text object
 window.append(input_text)
 
 def trial(stimulus, input_show = False):
@@ -53,7 +53,7 @@ def trial(stimulus, input_show = False):
 
 
     # 비프음으로 인한 지연시간 제거
-    t = threading.Thread(target=lambda: winsound.Beep(880,500)).start()
+    t = threading.Thread(target=lambda: winsound.Beep(600,500)).start()
     audio_image.setVisible(False);
     speak_image.setVisible(True);
 
