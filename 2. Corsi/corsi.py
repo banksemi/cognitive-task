@@ -21,20 +21,6 @@ alpha = 0.98 # 세로 해상도에 맞춰짐
 background_color = [255,255,255]
 block_color = [0,180,0]
 
-# background_color = [0,0,0]
-# block_color = [64, 71, 202]
-# with pyresult('승화','Corsi') as result:
-#    result.write('total_score', 6)
-
-# #안내문 내용
-texts = {
-    'instr':
-        {'kor':"지금부터 화면에 9개의 블록이 나옵니다. 블록이 깜박이는 순서를 잘 기억했다가 나타난 순서대로 블록을 눌러주세요. 다 누른 후에는 완료버튼을 누릅니다. 준비됐다면 space bar를 눌러 시작합니다."},
-    'exit':
-        {'kor': '완료'}
-}
-
-
 # custom 객체 사전 정의
 class drawling_box(drawling_object):
     i_effect = 0
@@ -70,11 +56,6 @@ class drawling_box(drawling_object):
             self.box.setFillColor(color2, colorSpace='rgb255')
             
 ####################################################################################
-# 안내문
-# Language specific components
-def _(string):
-    # You should use texts dictionary to strore the strings, and set exp_info['language'] to specify the language
-    return texts[string]['kor']
 
 participant_info = inputParticipant()
 win, window = initWindow()
