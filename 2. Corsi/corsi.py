@@ -54,7 +54,13 @@ class drawling_box(drawling_object):
             self.box.setFillColor(mixed, colorSpace='rgb255')
         else:
             self.box.setFillColor(color2, colorSpace='rgb255')
-            
+
+class drawling_image_easily_clikable(drawling_image):
+    def __init__(self, *numbers, **params):
+        super().__init__(*numbers, **params)
+        self.clickableobject = visual.Rect(win, pos=[self.x, self.y], width=self.width * 1.65, height=self.height * 1.8)
+    def contains(self, pos):
+        return self.clickableobject.contains(pos)      
 ####################################################################################
 
 participant_info = inputParticipant()
@@ -90,21 +96,8 @@ for box_pos in box_positions:
     boxes.append(box)
     window.append(box)
 
-class drawling_image_easily_clikable(drawling_image):
-    def __init__(self, *numbers, **params):
-        super().__init__(*numbers, **params)
-        self.clickableobject = visual.Rect(win, pos=[self.x, self.y], width=self.width * 1.65, height=self.height * 1.8)
-    def contains(self, pos):
-        return self.clickableobject.contains(pos)
-
-
 exit_box = drawling_image_easily_clikable(+0.70, -0.35, "ok2.png", height=0.20) 
 window.append(exit_box)
-
-# 사전 정의된 stimulus
-stimulus_set = []
-result = pyresult(participant_info, 'Corsi')
-
 
 def trial(stimulus, only_show=False):
     trial_result = {}
@@ -163,6 +156,16 @@ def trial(stimulus, only_show=False):
     trial_result['trial_score'] = score
     return trial_result
 
+def exit_event(message='stop'):
+    for i in range(trial_index, 8*2):
+        result.write('trial_response', [message], index=i)
+        result.write('trial_correct', 0, index=i)
+        result.write('trial_score', 0, index=i)
+    result.save()
+    result.close()
+
+
+
 explaning = ['./튜토리얼/Corsi Block(A)_T%d.PNG' % i for i in range(0,30)]
 
 showExplanation(explaning[1:1+7])
@@ -188,7 +191,10 @@ while True:
         continue
 
 # 본시행
+result = pyresult(participant_info, 'Corsi')
+window.event_listener_exit.append(lambda: exit_event('esc'))
 block_span = 0
+trial_index = 0
 for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
@@ -202,11 +208,8 @@ for trial_i in range(0, 8):
         result.save()
         
     if sum(corrects) == 0:
-        for i in range(trial_i+1, 8):
-            for j in [0, 1]:
-                result.write('trial_response', ['stop'], index=i * 2 + j)
-                result.write('trial_correct', 0, index=i * 2 + j)
-                result.write('trial_score', 0, index=i * 2 + j)
+        trial_index += 1
+        exit_event('stop')
         break
         
     if sum(corrects) == 2: # 2번 모두 성공

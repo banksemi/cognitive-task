@@ -152,6 +152,7 @@ class drawling_object:
 class window_manager:
     dobjects = []
     input_keys = []
+    event_listener_exit = []
     def __init__(self, win):
         self.win = win
         self.mouse=psycopy_mouse(visible=True, win=win)
@@ -173,6 +174,8 @@ class window_manager:
         self.win.update()
         self.input_keys = event.getKeys()
         if self.getPressKey('escape'):
+            for event_function in self.event_listener_exit:
+                event_function()
             self.win.close()
             core.quit()
         self.dobjects.sort(key= lambda x: x.z)
