@@ -246,8 +246,11 @@ class drawling_image(drawling_object):
         global win
         image1 = Image.open(image)
         mag1_size = image1.size
-        y_x = image1.size[0] / image1.size[1]
-        self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[y_x * height, height])
+        self.x = x
+        self.y = y
+        self.width = (image1.size[0] / image1.size[1]) * height
+        self.height = height
+        self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[self.width, height])
         super().__init__(self.image)
         
 class drawling_text(drawling_object):

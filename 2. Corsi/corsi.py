@@ -109,8 +109,15 @@ for box_pos in box_positions:
     boxes.append(box)
     window.append(box)
 
-    
-exit_box = drawling_image(+0.65, -0.35, "ok2.png", height=0.20) 
+class drawling_image_easily_clikable(drawling_image):
+    def __init__(self, *numbers, **params):
+        super().__init__(*numbers, **params)
+        self.clickableobject = visual.Rect(win, pos=[self.x, self.y], width=self.width * 1.65, height=self.height * 1.8)
+    def contains(self, pos):
+        return self.clickableobject.contains(pos)
+
+
+exit_box = drawling_image_easily_clikable(+0.70, -0.35, "ok2.png", height=0.20) 
 window.append(exit_box)
 
 # 사전 정의된 stimulus
