@@ -24,7 +24,7 @@ win, window = initWindow()
 audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.5) 
 window.append(audio_image)
 
-speak_image = drawling_image(0, 0, "./제시화면/speak.jpg", height=0.5) 
+speak_image = drawling_image(0, 0, "./제시화면/speak.png", height=0.5) 
 window.append(speak_image)
 
 # 사전 정의된 stimulus

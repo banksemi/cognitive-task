@@ -289,7 +289,7 @@ window = None
 def initWindow():
     #윈도우
     global win, window
-    win = visual.Window([1600, 900], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
+    win = visual.Window([1920, 1080], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
 ####################################################################################
