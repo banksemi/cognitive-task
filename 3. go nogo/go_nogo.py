@@ -91,19 +91,27 @@ explaning = ['./튜토리얼/Go, No-Go(A)_T%d.PNG' % i for i in range(0,30)]
 # 1번 이미지부터 순서대로 5장 튜토리얼 출력
 showExplanation(explaning[1:1+5])
 # 첫번째 연습 시행 (5 Go, 1 No-Go)
+success = True
 
 # 5장의 Go Task
 for i in go_image_list[0:5]:
     trial_result = trial(i, timeout=3)
     if trial_result['trial_response'] == 'NoGo': # Nogo 반응인 경우
         showExplanation(explaning[7]) # 7번 슬라이드 실행
+        success = False
 
 # 1장의 NoGo Task
 trial_result = trial(nogo_image_list[0], timeout=3)
 if trial_result['trial_response'] == 'Go': # Go 반응인 경우
-    showExplanation(explaning[8:8+2])
-else:
+    showExplanation(explaning[8])
+    success = False
+
+# 연습시행 1에 대한 결과 표시
+if success:
     showExplanation(explaning[6])
+else:
+    showExplanation(explaning[9])
+
 
 
 # 두번째 연습 시행 (3 Go, 1 No-Go, 2 Go)
@@ -131,25 +139,38 @@ for i in go_image_list[8:8+2]:
         showExplanation(explaning[7])
 
 if not success: # 연습시행 2를 한번이라도 틀렸으면
-    # 세번째 연습시행 (2 No-go, 2 Go, 2 No-Go)
+    # 세번째 연습시행 (1 Go, 1 No-Go, 2 Go, 1 No-Go, 1 Go)
     showExplanation(explaning[9])
-    # 2장의 NoGo Task
-    for i in nogo_image_list * 2:
+
+    # 1장의 Go Task
+    for i in go_image_list[0:1]:
+        trial_result = trial(i, timeout=3)
+        if trial_result['trial_response'] == 'NoGo':
+            showExplanation(explaning[7])
+
+    # 1장의 NoGo Task
+    for i in nogo_image_list * 1:
         trial_result = trial(i, timeout=3)
         if trial_result['trial_response'] == 'Go':
             showExplanation(explaning[8])
 
     # 2장의 Go Task (0번째부터 연속된 2장)
-    for i in go_image_list[0:2]:
+    for i in go_image_list[1:1+2]:
         trial_result = trial(i, timeout=3)
         if trial_result['trial_response'] == 'NoGo':
             showExplanation(explaning[7])
 
-    # 2장의 NoGo Task
-    for i in nogo_image_list * 2:
+    # 1장의 NoGo Task
+    for i in nogo_image_list * 1:
         trial_result = trial(i, timeout=3)
         if trial_result['trial_response'] == 'Go':
             showExplanation(explaning[8])
+
+    # 1장의 Go Task
+    for i in go_image_list[0:1]:
+        trial_result = trial(i, timeout=3)
+        if trial_result['trial_response'] == 'NoGo':
+            showExplanation(explaning[7])
 
 # 본 시행 시작 피드백
 showExplanation(explaning[10])
