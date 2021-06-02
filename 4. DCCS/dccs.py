@@ -18,8 +18,8 @@ participant_info = inputParticipant('DCCS')
 win, window = initWindow()
 
 
-basic_left_image = drawling_image(-0.37, +0.23, "이미지/blue_rabbit.png", height=0.4) 
-basic_right_image = drawling_image(+0.37, +0.23, "이미지/red_boat.png", height=0.4) 
+basic_left_image = drawling_image(-0.37, +0.23, "이미지/blue_rabbit.png", height=0.45) 
+basic_right_image = drawling_image(+0.37, +0.23, "이미지/red_boat.png", height=0.45) 
 window.append(basic_left_image)
 window.append(basic_right_image)
 
@@ -106,7 +106,7 @@ result = pyresult(participant_info, 'DCCS')
 images = {}
 for i in os.listdir("./이미지"):
     image_path = os.path.join("./이미지", i)
-    image = drawling_image(0, -0.23, image_path, height=0.4)
+    image = drawling_image(0, -0.23, image_path, height=0.45)
     image.z = 9
     image.setVisible(False)
     window.append(image)
