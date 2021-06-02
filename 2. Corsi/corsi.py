@@ -167,29 +167,32 @@ def exit_event(message='stop'):
 
 
 explaning = ['./튜토리얼/Corsi Block(A)_T%d.PNG' % i for i in range(0,30)]
+window.save_state()
+try:
+    showExplanation(explaning[1:1+7])
+    while True:
+        trial_result = trial([4,5])
+        if 'nosave_timeout' in trial_result: # 무응답
+            showExplanation(explaning[9:9+1])
+            continue
+        elif trial_result['trial_correct'] == 0: # 오답
+            showExplanation(explaning[10])
+            trial([4,5], only_show = True)
+            showExplanation(explaning[11:11+3])
+        else: # 정답
+            showExplanation(explaning[8])
+        trial_result = trial([8, 6])
+        if trial_result['trial_correct'] == 1: # 정답
+            break
+        else:
+            showExplanation(explaning[14])
+            trial([8, 6], only_show = True)
+            showExplanation(explaning[15:15+3])
+            continue
+except PassException as e: 
+    window.load_state()
 
-showExplanation(explaning[1:1+7])
-while True:
-    trial_result = trial([4,5])
-    if 'nosave_timeout' in trial_result: # 무응답
-        showExplanation(explaning[9:9+1])
-        continue
-    elif trial_result['trial_correct'] == 0: # 오답
-        showExplanation(explaning[10])
-        trial([4,5], only_show = True)
-        showExplanation(explaning[11:11+3])
-    else: # 정답
-        showExplanation(explaning[8])
-    trial_result = trial([8, 6])
-    if trial_result['trial_correct'] == 1: # 정답
-        showExplanation(explaning[18])
-        break
-    else:
-        showExplanation(explaning[14])
-        trial([8, 6], only_show = True)
-        showExplanation(explaning[15:15+3])
-        continue
-
+showExplanation(explaning[18])
 # 본시행
 result = pyresult(participant_info, 'Corsi')
 window.event_listener_exit.append(lambda: exit_event('esc'))

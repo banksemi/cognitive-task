@@ -97,22 +97,26 @@ def exit_event(message='stop'):
     result.close()
 
 explaning = ['./튜토리얼/Digit Span(A)_T%d.PNG' % i for i in range(0,30)]
-showExplanation(explaning[1:1+4])
-while True:
-    trial_result = trial([3,5])
-    if trial_result['trial_correct'] == 1:
-        showExplanation(explaning[5])
-    else:
-        showExplanation(explaning[6])
 
-    trial_result = trial([9,4])
-    if trial_result['trial_correct'] == 1:
-        showExplanation(explaning[8])
-        break
-    else:
-        showExplanation(explaning[7])
+window.save_state()
+try:
+    showExplanation(explaning[1:1+4])
+    while True:
+        trial_result = trial([3,5])
+        if trial_result['trial_correct'] == 1:
+            showExplanation(explaning[5])
+        else:
+            showExplanation(explaning[6])
 
+        trial_result = trial([9,4])
+        if trial_result['trial_correct'] == 1:
+            break
+        else:
+            showExplanation(explaning[7])
+except PassException as e: 
+    window.load_state()
 
+showExplanation(explaning[8])
 result = pyresult(participant_info, 'Digit Span')
 block_span = 0
 

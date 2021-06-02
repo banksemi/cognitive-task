@@ -148,7 +148,11 @@ class drawling_object:
         
     def update(self):
         return
-        
+
+class PassException(Exception):    # Exception을 상속받아서 새로운 예외를 만듦
+    def __init__(self):
+        super().__init__('연습 시행 생략')
+
 class window_manager:
     dobjects = []
     input_keys = []
@@ -173,6 +177,8 @@ class window_manager:
         self.mouse.update()
         self.win.update()
         self.input_keys = event.getKeys()
+        if self.getPressKey('p'):
+            raise PassException()
         if self.getPressKey('escape'):
             for event_function in self.event_listener_exit:
                 event_function()
@@ -201,6 +207,18 @@ class window_manager:
             
     def isClickedObject(self, dobject):
         return self.mouse.getClicked() and dobject.contains(self.mouse.getPos())
+
+    def save_state(self):
+        self.state = []
+        for i in self.dobjects:
+            self.state.append((i,i.visible, i.z))
+
+    def load_state(self):
+        self.dobjects = []
+        for i in self.state:
+            i[0].visible = i[1]
+            i[0].z = i[2]
+            self.dobjects.append(i[0])
             
 # 터치스크린 문제를 해결하기 위해 mouse 객체 재정의
 # 기존 window를 이용하는 mouse 객체와, ioHub로 얻은 mouse 객체를 함께 사용

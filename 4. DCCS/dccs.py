@@ -18,8 +18,8 @@ participant_info = inputParticipant()
 win, window = initWindow()
 
 
-basic_left_image = drawling_image(-0.37, +0.23, "Blue_rabbit.png", height=0.4) 
-basic_right_image = drawling_image(+0.37, +0.23, "Red_boat.png", height=0.4) 
+basic_left_image = drawling_image(-0.37, +0.23, "이미지/blue_rabbit.png", height=0.4) 
+basic_right_image = drawling_image(+0.37, +0.23, "이미지/red_boat.png", height=0.4) 
 window.append(basic_left_image)
 window.append(basic_right_image)
 
@@ -117,61 +117,68 @@ explaning = ['./튜토리얼/DCCS(A)_T%d.PNG' % i for i in range(0,60)]
 
 practice = lambda x: trial(answer[x], x)['trial_correct'] == 1
 
-'''
-showExplanation(explaning[1:1+9])
 answer = {
     "blue_boat.png": 'left',
     "red_rabbit.png": 'right'
 }
-
-# 연습시행 1
-if not practice("red_rabbit.png"):
-    showExplanation(explaning[11:11+3])
+window.save_state()
+try:
+    showExplanation(explaning[1:1+9])
+    # 연습시행 1
+    if not practice("red_rabbit.png"):
+        showExplanation(explaning[11:11+3])
  
-if practice("blue_boat.png"):
-    showExplanation(explaning[10])
-else:
-    showExplanation(explaning[14:14+2])
-    showExplanation(explaning[13])
-# 연습시행 2
-while True:
-    if not practice("blue_boat.png"):
+    if practice("blue_boat.png"):
+        showExplanation(explaning[10])
+    else:
         showExplanation(explaning[14:14+2])
         showExplanation(explaning[13])
+    # 연습시행 2
+    while True:
+        if not practice("blue_boat.png"):
+            showExplanation(explaning[14:14+2])
+            showExplanation(explaning[13])
 
-    if practice("red_rabbit.png"):
-        showExplanation(explaning[16])
-        break
-    else:
-        showExplanation(explaning[11:11+3])
-
+        if practice("red_rabbit.png"):
+            break
+        else:
+            showExplanation(explaning[11:11+3])
+except PassException as e: 
+    window.load_state()
+showExplanation(explaning[16])
 game(1, answer)
 
 answer = {
     "blue_boat.png": 'right',
     "red_rabbit.png": 'left'
 }
-
-
-if not practice("red_rabbit.png"):
-    showExplanation(explaning[25:25+3])
+window.save_state()
+try:
+    showExplanation(explaning[17:17+7])
+    if not practice("red_rabbit.png"):
+        showExplanation(explaning[25:25+3])
  
-if practice("blue_boat.png"):
-    showExplanation(explaning[24])
-else:
-    showExplanation(explaning[28:28+2])
-    showExplanation(explaning[27])
-# 연습시행 2
-while True:
-    if not practice("blue_boat.png"):
+    if practice("blue_boat.png"):
+        showExplanation(explaning[24])
+    else:
         showExplanation(explaning[28:28+2])
         showExplanation(explaning[27])
 
-    if practice("red_rabbit.png"):
-        showExplanation(explaning[30])
-        break
-    else:
-        showExplanation(explaning[25:25+3])
+    # 연습시행 2
+    while True:
+        if not practice("blue_boat.png"):
+            showExplanation(explaning[28:28+2])
+            showExplanation(explaning[27])
+
+        if practice("red_rabbit.png"):
+            break
+        else:
+            showExplanation(explaning[25:25+3])
+
+except PassException as e: 
+    window.load_state()
+
+showExplanation(explaning[30])
 game(2, answer)
 
 
@@ -182,26 +189,12 @@ answer = {
     "blue_boat.png": 'right',
     "red_rabbit.png": 'left',
 }
+window.save_state()
+try:
+    showExplanation(explaning[31:31+14])
+    if not practice("blue_boat_square.png"):
+        showExplanation(explaning[46:46+3])
 
-if not practice("blue_boat_square.png"):
-    showExplanation(explaning[46:46+3])
-
-if not practice("red_rabbit_square.png"):
-    showExplanation(explaning[49:49+2])
-    showExplanation(explaning[48])
-
-if not practice("blue_boat.png"):
-    showExplanation(explaning[51:51+2])
-    showExplanation(explaning[48])
-
-if practice("red_rabbit.png"):
-    showExplanation(explaning[45])
-else:
-    showExplanation(explaning[53:53+2])
-    showExplanation(explaning[48])
-
-
-while True:
     if not practice("red_rabbit_square.png"):
         showExplanation(explaning[49:49+2])
         showExplanation(explaning[48])
@@ -210,15 +203,34 @@ while True:
         showExplanation(explaning[51:51+2])
         showExplanation(explaning[48])
 
-    if not practice("red_rabbit.png"):
+    if practice("red_rabbit.png"):
+        showExplanation(explaning[45])
+    else:
         showExplanation(explaning[53:53+2])
         showExplanation(explaning[48])
 
-    if practice("blue_boat_square.png"):
-        showExplanation(explaning[55])
-        break
-    else:
-        showExplanation(explaning[46:46+3])
+
+    while True:
+        if not practice("red_rabbit_square.png"):
+            showExplanation(explaning[49:49+2])
+            showExplanation(explaning[48])
+
+        if not practice("blue_boat.png"):
+            showExplanation(explaning[51:51+2])
+            showExplanation(explaning[48])
+
+        if not practice("red_rabbit.png"):
+            showExplanation(explaning[53:53+2])
+            showExplanation(explaning[48])
+
+        if practice("blue_boat_square.png"):
+            break
+        else:
+            showExplanation(explaning[46:46+3])
+
+except PassException as e: 
+    window.load_state()
+showExplanation(explaning[55])
 game(3, answer)
 
 
