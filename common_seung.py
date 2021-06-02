@@ -243,15 +243,23 @@ class psycopy_mouse:
         for e in events:
             self.pressed = False
             
+image_size_cache = {}
+def get_image_size(filename):
+    global image_size_cache
+    if filename in image_size_cache:
+        return image_size_cache[filename]
+    else:
+        image1 = Image.open(filename)
+        image_size_cache[filename] = image1.size
+        return image1.size
 
 class drawling_image(drawling_object):
     def __init__(self, x, y, image, height = 1):
         global win
-        image1 = Image.open(image)
-        mag1_size = image1.size
+        mag1_size = get_image_size(image)
         self.x = x
         self.y = y
-        self.width = (image1.size[0] / image1.size[1]) * height
+        self.width = (mag1_size[0] / mag1_size[1]) * height
         self.height = height
         self.image = visual.ImageStim(win, pos=[x, y], image=image, size=[self.width, height])
         super().__init__(self.image)
