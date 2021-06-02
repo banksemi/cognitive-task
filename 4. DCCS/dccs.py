@@ -14,7 +14,7 @@ import os, sys
 sys.path.append((os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from common_seung import *
 
-participant_info = inputParticipant()
+participant_info = inputParticipant('DCCS')
 win, window = initWindow()
 
 

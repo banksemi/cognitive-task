@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
 
-participant_info = inputParticipant()
+participant_info = inputParticipant('Digit Span')
 win, window = initWindow()
 
 audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.8) 

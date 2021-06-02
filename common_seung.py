@@ -291,11 +291,11 @@ class drawling_text(drawling_object):
     def setText(self, text):
         self.text.setText(text)
         
-def inputParticipant():
+def inputParticipant(title='Participant'):
     with open('../id.txt', 'r') as f:
         json_data = json.load(f)
 
-    dlg = gui.DlgFromDict(json_data, title='Corsi Test', order = ['Participant ID', 'Family name', 'First name'])
+    dlg = gui.DlgFromDict(json_data, title=title, order = ['Participant ID', 'Family name', 'First name'])
     if not dlg.OK:
         print ('User Cancelled')
         core.quit()

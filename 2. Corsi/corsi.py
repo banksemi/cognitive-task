@@ -63,7 +63,7 @@ class drawling_image_easily_clikable(drawling_image):
         return self.clickableobject.contains(pos)      
 ####################################################################################
 
-participant_info = inputParticipant()
+participant_info = inputParticipant('Corsi')
 win, window = initWindow()
 
 back = drawling_box(0, 0, 200, color=background_color)

@@ -42,7 +42,7 @@ for i in range(0,5):
             orders.extend(image_list)
             break
 
-participant_info = inputParticipant()
+participant_info = inputParticipant('Go, No-Go')
 win, window = initWindow()
 
 # 이미지 캐싱
