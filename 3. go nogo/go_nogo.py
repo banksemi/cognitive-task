@@ -101,7 +101,7 @@ for i in go_image_list[0:5]:
         success = False
 
 # 1장의 NoGo Task
-trial_result = trial(nogo_image_list[0], timeout=3)
+trial_result = trial(nogo_image_list[0], timeout=2)
 if trial_result['trial_response'] == 'Go': # Go 반응인 경우
     showExplanation(explaning[8])
     success = False
@@ -116,29 +116,38 @@ else:
 
 # 두번째 연습 시행 (3 Go, 1 No-Go, 2 Go)
 # 만약 한번이라도 틀리면 연습시행 3으로...
-success = True
 
+go_count = 5
+nogo_count = 2
 # 3장의 Go Task (5번째부터 연속된 3장)
 for i in go_image_list[5:5+3]:
     trial_result = trial(i, timeout=3)
     if trial_result['trial_response'] == 'NoGo':
-        success = False
+        go_count -= 1
         showExplanation(explaning[7])
 
 # 1장의 NoGo Task
-trial_result = trial(nogo_image_list[0], timeout=3)
+trial_result = trial(nogo_image_list[0], timeout=2)
 if trial_result['trial_response'] == 'Go':
-    success = False
+    nogo_count -= 1
     showExplanation(explaning[8])
 
-# 2장의 Go Task (8번째부터 연속된 2장)
-for i in go_image_list[8:8+2]:
+# 2장의 Go Task
+for i in go_image_list[3:3+2]:
     trial_result = trial(i, timeout=3)
     if trial_result['trial_response'] == 'NoGo':
-        success = False
+        go_count -= 1
         showExplanation(explaning[7])
 
-if not success: # 연습시행 2를 한번이라도 틀렸으면
+# 1장의 NoGo Task
+trial_result = trial(nogo_image_list[0], timeout=2)
+if trial_result['trial_response'] == 'Go':
+    nogo_count -= 1
+    showExplanation(explaning[8])
+
+
+
+if go_count < 3 or nogo_count == 0: # 연습시행 2를 한번이라도 틀렸으면
     # 세번째 연습시행 (1 Go, 1 No-Go, 2 Go, 1 No-Go, 1 Go)
     showExplanation(explaning[9])
 
@@ -150,7 +159,7 @@ if not success: # 연습시행 2를 한번이라도 틀렸으면
 
     # 1장의 NoGo Task
     for i in nogo_image_list * 1:
-        trial_result = trial(i, timeout=3)
+        trial_result = trial(i, timeout=2)
         if trial_result['trial_response'] == 'Go':
             showExplanation(explaning[8])
 
@@ -162,7 +171,7 @@ if not success: # 연습시행 2를 한번이라도 틀렸으면
 
     # 1장의 NoGo Task
     for i in nogo_image_list * 1:
-        trial_result = trial(i, timeout=3)
+        trial_result = trial(i, timeout=2)
         if trial_result['trial_response'] == 'Go':
             showExplanation(explaning[8])
 
