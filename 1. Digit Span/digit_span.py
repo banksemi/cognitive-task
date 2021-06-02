@@ -21,10 +21,10 @@ from common_seung import *
 participant_info = inputParticipant()
 win, window = initWindow()
 
-audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.5) 
+audio_image = drawling_image(0, 0, "./제시화면/audio.png", height=0.8) 
 window.append(audio_image)
 
-speak_image = drawling_image(0, 0, "./제시화면/speak.png", height=0.5) 
+speak_image = drawling_image(0, 0, "./제시화면/speak.png", height=0.8) 
 window.append(speak_image)
 
 input_text = drawling_text(0.8-0.1, -0.45, "", [0,0,0], height = 0.035) # Text object
