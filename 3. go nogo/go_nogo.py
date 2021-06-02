@@ -120,7 +120,7 @@ for i in go_image_list[5:5+3]:
 # 1장의 NoGo Task
 trial_result = trial(nogo_image_list[0], timeout=3)
 if trial_result['trial_response'] == 'Go':
-    success = True
+    success = False
     showExplanation(explaning[8])
 
 # 2장의 Go Task (8번째부터 연속된 2장)
