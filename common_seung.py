@@ -7,6 +7,7 @@ import random
 import openpyxl
 import os  
 import json
+import sys
 
 from PIL import Image
 
@@ -85,24 +86,25 @@ class pyresult:
         }
     }
     
-    def __init__(self, participant_info, test_name, reset = True):
+    def __init__(self, participant_info, test_name, task_type, reset = True):
         self.test_name = test_name
         self.participant_info = participant_info
+        self.task_type = task_type
         self.output_path = '../output/%s_%s_%s_CBT.xlsx' % (participant_info['Participant ID'], participant_info['Family name'], participant_info['First name'])
-
+        sheet_name = self.test_name + ' (' + task_type + ')'
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
 
             if reset:
-                original = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
+                original = openpyxl.load_workbook('../template/' + '메인AB' + '.xlsx')
                 for i in 'ABCDEFGHIJKLMN':
                     for j in range(1,100):
-                        self.workbook[self.test_name][i + str(j)] = original[self.test_name][i + str(j)].value
+                        self.workbook[sheet_name][i + str(j)] = original[sheet_name][i + str(j)].value
                 
                 original.close()
         else:
-            self.workbook = openpyxl.load_workbook('../template/' + '메인' + '.xlsx')
-        self.worksheet = self.workbook[self.test_name]
+            self.workbook = openpyxl.load_workbook('../template/' + '메인AB' + '.xlsx')
+        self.worksheet = self.workbook[sheet_name]
         for i in participant_info:
             self.write(i, participant_info[i])
         
@@ -118,7 +120,7 @@ class pyresult:
         
     def save(self, reload=True):
         self.workbook.save(self.output_path)
-        self.__init__(self.participant_info, self.test_name, reset= False)
+        self.__init__(self.participant_info, self.test_name, self.task_type, reset= False)
         
     def close(self):
         self.workbook.close()
@@ -324,4 +326,11 @@ def initWindow():
     win = visual.Window([1920, 1080], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
+
+def getTaskType():
+    if len(sys.argv) == 1:
+        return 'A'
+    else:
+        return sys.argv[1]
+
 ####################################################################################

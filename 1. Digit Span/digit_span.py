@@ -12,6 +12,7 @@ import json
 import winsound
 import threading
 import winsound
+import random
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -96,36 +97,51 @@ def exit_event(message='stop'):
     result.save()
     result.close()
 
-explaning = ['./튜토리얼/Digit Span(A)_T%d.PNG' % i for i in range(0,30)]
+task_type = getTaskType()
 
-window.save_state()
-try:
-    showExplanation(explaning[1:1+4])
-    while True:
-        trial_result = trial([3,5])
-        if trial_result['trial_correct'] == 1:
-            showExplanation(explaning[5])
-        else:
-            showExplanation(explaning[6])
-
-        trial_result = trial([9,4])
-        if trial_result['trial_correct'] == 1:
-            break
-        else:
-            showExplanation(explaning[7])
-except PassException as e: 
-    window.load_state()
-
-showExplanation(explaning[8])
-result = pyresult(participant_info, 'Digit Span')
+explaning = ['./튜토리얼/Digit Span(%s)_T%d.PNG' % (task_type, i) for i in range(0,30)]
+result = pyresult(participant_info, 'Digit Span', task_type)
 block_span = 0
 
+if task_type == 'A':
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+4])
+        while True:
+            trial_result = trial([3,5])
+            if trial_result['trial_correct'] == 1:
+                showExplanation(explaning[5])
+            else:
+                showExplanation(explaning[6])
+
+            trial_result = trial([9,4])
+            if trial_result['trial_correct'] == 1:
+                break
+            else:
+                showExplanation(explaning[7])
+    except PassException as e: 
+        window.load_state()
+
+    showExplanation(explaning[8])
+elif task_type == 'B':
+    showExplanation(explaning[1:1+3])
+    random.seed(445) # B 과제 본시행을 위한 시드값 고정
 window.event_listener_exit.append(lambda: exit_event('esc'))
+
 for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
-        stimulus = json.loads(result.read('trial_stimulus', trial_index))
+        if task_type == 'A':
+            stimulus = json.loads(result.read('trial_stimulus', trial_index))
+        else:
+            stimulus = list(range(1,10))
+            while True:
+                random.shuffle(stimulus)
+                if not stimulus[trial_i + 2 - 1] == 6:
+                    break
+            stimulus = stimulus[0:trial_i+2]
+            result.write('trial_stimulus', stimulus, index=trial_index)
         trial_result = trial(stimulus)
         for i in trial_result:
             result.write(i, trial_result[i], index=trial_index)
