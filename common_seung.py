@@ -296,7 +296,7 @@ class drawling_text(drawling_object):
 def inputParticipant(title='Participant'):
     with open('../id.txt', 'r') as f:
         json_data = json.load(f)
-
+    title += ' (' + getTaskType() + ')'
     dlg = gui.DlgFromDict(json_data, title=title, order = ['Participant ID', 'Family name', 'First name'])
     if not dlg.OK:
         print ('User Cancelled')
