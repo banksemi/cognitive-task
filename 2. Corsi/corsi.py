@@ -55,7 +55,7 @@ class drawling_box(drawling_object):
         else:
             self.box.setFillColor(color2, colorSpace='rgb255')
 
-class drawling_image_easily_clikable(drawling_image):
+class drawling_image_easily_clickable(drawling_image):
     def __init__(self, *numbers, **params):
         super().__init__(*numbers, **params)
         self.clickableobject = visual.Rect(win, pos=[self.x, self.y], width=self.width * 1.65, height=self.height * 1.8)
@@ -96,7 +96,7 @@ for box_pos in box_positions:
     boxes.append(box)
     window.append(box)
 
-exit_box = drawling_image_easily_clikable(+0.70, -0.35, "ok2.png", height=0.20) 
+exit_box = drawling_image_easily_clickable(+0.70, -0.35, "ok2.png", height=0.20) 
 window.append(exit_box)
 
 def trial(stimulus, only_show=False):
