@@ -165,36 +165,41 @@ def exit_event(message='stop'):
     result.close()
 
 
+task_type = getTaskType()
+explaning = ['./튜토리얼/Corsi Block(%s)_T%d.PNG' % (task_type, i) for i in range(0,30)]
+result = pyresult(participant_info, 'Corsi', task_type)
+if task_type == 'A':
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+7])
+        while True:
+            trial_result = trial([4,5])
+            if 'nosave_timeout' in trial_result: # 무응답
+                showExplanation(explaning[9:9+1])
+                continue
+            elif trial_result['trial_correct'] == 0: # 오답
+                showExplanation(explaning[10])
+                trial([4,5], only_show = True)
+                showExplanation(explaning[11:11+3])
+            else: # 정답
+                showExplanation(explaning[8])
+            trial_result = trial([8, 6])
+            if trial_result['trial_correct'] == 1: # 정답
+                break
+            else:
+                showExplanation(explaning[14])
+                trial([8, 6], only_show = True)
+                showExplanation(explaning[15:15+3])
+                continue
+    except PassException as e: 
+        window.load_state()
 
-explaning = ['./튜토리얼/Corsi Block(A)_T%d.PNG' % i for i in range(0,30)]
-window.save_state()
-try:
-    showExplanation(explaning[1:1+7])
-    while True:
-        trial_result = trial([4,5])
-        if 'nosave_timeout' in trial_result: # 무응답
-            showExplanation(explaning[9:9+1])
-            continue
-        elif trial_result['trial_correct'] == 0: # 오답
-            showExplanation(explaning[10])
-            trial([4,5], only_show = True)
-            showExplanation(explaning[11:11+3])
-        else: # 정답
-            showExplanation(explaning[8])
-        trial_result = trial([8, 6])
-        if trial_result['trial_correct'] == 1: # 정답
-            break
-        else:
-            showExplanation(explaning[14])
-            trial([8, 6], only_show = True)
-            showExplanation(explaning[15:15+3])
-            continue
-except PassException as e: 
-    window.load_state()
+    showExplanation(explaning[18])
+if task_type == 'B':
+    showExplanation(explaning[1:1+3])
+    random.seed(654) # B 과제 본시행을 위한 시드값 고정
 
-showExplanation(explaning[18])
 # 본시행
-result = pyresult(participant_info, 'Corsi')
 window.event_listener_exit.append(lambda: exit_event('esc'))
 block_span = 0
 trial_index = 0
@@ -202,7 +207,14 @@ for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
-        stimulus = json.loads(result.read('trial_stimulus', trial_index))
+        if task_type == 'A':
+            stimulus = json.loads(result.read('trial_stimulus', trial_index))
+        else:
+            stimulus = list(range(1,10))
+            random.shuffle(stimulus)
+            stimulus = stimulus[0:trial_i+2]
+            result.write('trial_stimulus', stimulus, index=trial_index)
+
         trial_result = trial(stimulus)
         for i in trial_result:
             result.write(i, trial_result[i], index=trial_index)
