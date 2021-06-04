@@ -202,18 +202,22 @@ if task_type == 'B':
 # 본시행
 window.event_listener_exit.append(lambda: exit_event('esc'))
 block_span = 0
+if task_type == 'B':
+    for trial_i in range(0, 8):
+        for trial_j in [0, 1]:
+            trial_index = trial_i * 2 + trial_j
+            stimulus = list(range(1,10))
+            random.shuffle(stimulus)
+            stimulus = stimulus[0:trial_i+2]
+            result.write('trial_stimulus', stimulus, index=trial_index)
+
+
 trial_index = 0
 for trial_i in range(0, 8):
     corrects = []
     for trial_j in [0, 1]:
         trial_index = trial_i * 2 + trial_j
-        if task_type == 'A':
-            stimulus = json.loads(result.read('trial_stimulus', trial_index))
-        else:
-            stimulus = list(range(1,10))
-            random.shuffle(stimulus)
-            stimulus = stimulus[0:trial_i+2]
-            result.write('trial_stimulus', stimulus, index=trial_index)
+        stimulus = json.loads(result.read('trial_stimulus', trial_index))
 
         trial_result = trial(stimulus)
         for i in trial_result:
