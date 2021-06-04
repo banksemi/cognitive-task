@@ -27,6 +27,8 @@ for i in os.listdir(image_path):
 
 last = None
 orders = []
+if task_type == 'B':
+    random.seed(132)
 for i in range(0,5):
     image_list = go_image_list + nogo_image_list * 2
 
