@@ -12,7 +12,10 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
-image_path = "./이미지"
+task_type = getTaskType()
+explaning = ['./튜토리얼/Go, No-Go(%s)_T%d.PNG' % (task_type, i) for i in range(0,30)]
+
+image_path = "./이미지/" + task_type + '과제'
 
 go_image_list = []
 nogo_image_list = []
@@ -22,7 +25,6 @@ for i in os.listdir(image_path):
     else:
         go_image_list.append(os.path.join(image_path, i))
 
-    
 last = None
 orders = []
 for i in range(0,5):
@@ -44,6 +46,7 @@ for i in range(0,5):
 
 participant_info = inputParticipant('Go, No-Go')
 win, window = initWindow()
+result = pyresult(participant_info, 'Go, No-Go', task_type)
 
 # 이미지 캐싱
 images = {}
@@ -86,8 +89,6 @@ def trial(image_name, timeout=1):
     return trial_result
 
 # 연습 시행 루틴
-explaning = ['./튜토리얼/Go, No-Go(A)_T%d.PNG' % i for i in range(0,30)]
-
 window.save_state()
 try:
     # 1번 이미지부터 순서대로 5장 튜토리얼 출력
@@ -114,11 +115,8 @@ try:
     else:
         showExplanation(explaning[9])
 
-
-
     # 두번째 연습 시행 (3 Go, 1 No-Go, 2 Go)
     # 만약 한번이라도 틀리면 연습시행 3으로...
-
     go_count = 5
     nogo_count = 2
     # 3장의 Go Task (5번째부터 연속된 3장)
@@ -146,8 +144,6 @@ try:
     if trial_result['trial_response'] == 'Go':
         nogo_count -= 1
         showExplanation(explaning[8])
-
-
 
     if go_count < 3 or nogo_count == 0: # 연습시행 2를 한번이라도 틀렸으면
         # 세번째 연습시행 (1 Go, 1 No-Go, 2 Go, 1 No-Go, 1 Go)
@@ -190,7 +186,6 @@ except PassException as e:
 showExplanation(explaning[10])
 
 # 본 시행
-result = pyresult(participant_info, 'Go, No-Go')
 score = 0
 inhibition = 0
 go_reaction_time = []
