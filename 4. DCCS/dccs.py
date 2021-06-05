@@ -240,6 +240,8 @@ if task_type == 'A':
 
 
 if task_type == 'B':  # yellow_truck green_flower
+    
+    random.seed(445) # B 과제 본시행을 위한 시드값 고정
     # 색깔로 맞추기
     answer = {
         "yellow_flower.png": 'left',
