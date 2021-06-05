@@ -105,9 +105,11 @@ block_span = 0
 
 if task_type == 'A':
     window.save_state()
+    practice_count = 0
     try:
         showExplanation(explaning[1:1+4])
-        while True:
+        for i in range(0,3):
+            practice_count += 1
             trial_result = trial([3,5])
             if trial_result['trial_correct'] == 1:
                 showExplanation(explaning[5])
@@ -116,13 +118,18 @@ if task_type == 'A':
 
             trial_result = trial([9,4])
             if trial_result['trial_correct'] == 1:
+                practice_count = 0 # 실패 카운트 초기화 후 본시행 시작
                 break
             else:
-                showExplanation(explaning[7])
+                if practice_count != 3:
+                    showExplanation(explaning[7])
     except PassException as e: 
         window.load_state()
 
-    showExplanation(explaning[8])
+    if practice_count == 3:
+        showExplanation(explaning[9])
+    else:
+        showExplanation(explaning[8])
 elif task_type == 'B':
     showExplanation(explaning[1:1+3])
     random.seed(445) # B 과제 본시행을 위한 시드값 고정
