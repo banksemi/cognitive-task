@@ -14,12 +14,17 @@ import os, sys
 sys.path.append((os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from common_seung import *
 
+task_type = getTaskType()
+
 participant_info = inputParticipant('DCCS')
 win, window = initWindow()
 
-
-basic_left_image = drawling_image(-0.37, +0.23, "이미지/blue_rabbit.png", height=0.45) 
-basic_right_image = drawling_image(+0.37, +0.23, "이미지/red_boat.png", height=0.45) 
+if task_type == 'A':
+    basic_left_image = drawling_image(-0.37, +0.23, "이미지/blue_rabbit.png", height=0.45) 
+    basic_right_image = drawling_image(+0.37, +0.23, "이미지/red_boat.png", height=0.45)
+elif task_type == 'B':
+    basic_left_image = drawling_image(-0.37, +0.23, "이미지/yellow_truck.png", height=0.45) 
+    basic_right_image = drawling_image(+0.37, +0.23, "이미지/green_flower.png", height=0.45)
 window.append(basic_left_image)
 window.append(basic_right_image)
 
@@ -100,7 +105,7 @@ def game(index, answer, count=12):
     
 
 # 기본값 Blue_rabbit, Red_boat
-result = pyresult(participant_info, 'DCCS')
+result = pyresult(participant_info, 'DCCS', task_type)
 
 # 사용할 이미지를 사전 등록
 images = {}
@@ -112,105 +117,89 @@ for i in os.listdir("./이미지"):
     window.append(image)
     images[i] = image
 
-explaning = ['./튜토리얼/DCCS(A)_T%d.PNG' % i for i in range(0,60)]
-# 색깔로 맞추기
-
+explaning = ['./튜토리얼/DCCS(%s)_T%d.PNG' % (task_type, i) for i in range(0,60)]
 practice = lambda x: trial(answer[x], x)['trial_correct'] == 1
 
-answer = {
-    "blue_boat.png": 'left',
-    "red_rabbit.png": 'right'
-}
-window.save_state()
-try:
-    showExplanation(explaning[1:1+9])
-    # 연습시행 1
-    if not practice("red_rabbit.png"):
-        showExplanation(explaning[11:11+3])
+if task_type == 'A':
+    # 색깔로 맞추기
+    answer = {
+        "blue_boat.png": 'left',
+        "red_rabbit.png": 'right'
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+9])
+        # 연습시행 1
+        if not practice("red_rabbit.png"):
+            showExplanation(explaning[11:11+3])
  
-    if practice("blue_boat.png"):
-        showExplanation(explaning[10])
-    else:
-        showExplanation(explaning[14:14+2])
-        showExplanation(explaning[13])
-    # 연습시행 2
-    while True:
-        if not practice("blue_boat.png"):
+        if practice("blue_boat.png"):
+            showExplanation(explaning[10])
+        else:
             showExplanation(explaning[14:14+2])
             showExplanation(explaning[13])
+        # 연습시행 2
+        while True:
+            if not practice("blue_boat.png"):
+                showExplanation(explaning[14:14+2])
+                showExplanation(explaning[13])
 
-        if practice("red_rabbit.png"):
-            break
-        else:
-            showExplanation(explaning[11:11+3])
-except PassException as e: 
-    window.load_state()
-showExplanation(explaning[16])
-game(1, answer)
+            if practice("red_rabbit.png"):
+                break
+            else:
+                showExplanation(explaning[11:11+3])
+    except PassException as e: 
+        window.load_state()
+    showExplanation(explaning[16])
+    game(1, answer)
 
-answer = {
-    "blue_boat.png": 'right',
-    "red_rabbit.png": 'left'
-}
-window.save_state()
-try:
-    showExplanation(explaning[17:17+7])
-    if not practice("red_rabbit.png"):
-        showExplanation(explaning[25:25+3])
+    answer = {
+        "blue_boat.png": 'right',
+        "red_rabbit.png": 'left'
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[17:17+7])
+        if not practice("red_rabbit.png"):
+            showExplanation(explaning[25:25+3])
  
-    if practice("blue_boat.png"):
-        showExplanation(explaning[24])
-    else:
-        showExplanation(explaning[28:28+2])
-        showExplanation(explaning[27])
-
-    # 연습시행 2
-    while True:
-        if not practice("blue_boat.png"):
+        if practice("blue_boat.png"):
+            showExplanation(explaning[24])
+        else:
             showExplanation(explaning[28:28+2])
             showExplanation(explaning[27])
 
-        if practice("red_rabbit.png"):
-            break
-        else:
-            showExplanation(explaning[25:25+3])
+        # 연습시행 2
+        while True:
+            if not practice("blue_boat.png"):
+                showExplanation(explaning[28:28+2])
+                showExplanation(explaning[27])
 
-except PassException as e: 
-    window.load_state()
+            if practice("red_rabbit.png"):
+                break
+            else:
+                showExplanation(explaning[25:25+3])
 
-showExplanation(explaning[30])
-game(2, answer)
+    except PassException as e: 
+        window.load_state()
 
-
-# 테두리 -> 색깔,  일반 -> 모양
-answer = {
-    "blue_boat_square.png": 'left',
-    "red_rabbit_square.png": 'right',
-    "blue_boat.png": 'right',
-    "red_rabbit.png": 'left',
-}
-window.save_state()
-try:
-    showExplanation(explaning[31:31+14])
-    if not practice("blue_boat_square.png"):
-        showExplanation(explaning[46:46+3])
-
-    if not practice("red_rabbit_square.png"):
-        showExplanation(explaning[49:49+2])
-        showExplanation(explaning[48])
-
-    if not practice("blue_boat.png"):
-        showExplanation(explaning[51:51+2])
-        showExplanation(explaning[48])
-
-    if practice("red_rabbit.png"):
-        showExplanation(explaning[45])
-    else:
-        showExplanation(explaning[53:53+2])
-        showExplanation(explaning[48])
+    showExplanation(explaning[30])
+    game(2, answer)
 
 
-    while True:
+    # 테두리 -> 색깔,  일반 -> 모양
+    answer = {
+        "blue_boat_square.png": 'left',
+        "red_rabbit_square.png": 'right',
+        "blue_boat.png": 'right',
+        "red_rabbit.png": 'left',
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[31:31+14])
+        if not practice("blue_boat_square.png"):
+            showExplanation(explaning[46:46+3])
+
         if not practice("red_rabbit_square.png"):
             showExplanation(explaning[49:49+2])
             showExplanation(explaning[48])
@@ -219,19 +208,151 @@ try:
             showExplanation(explaning[51:51+2])
             showExplanation(explaning[48])
 
-        if not practice("red_rabbit.png"):
+        if practice("red_rabbit.png"):
+            showExplanation(explaning[45])
+        else:
             showExplanation(explaning[53:53+2])
             showExplanation(explaning[48])
 
-        if practice("blue_boat_square.png"):
-            break
+
+        while True:
+            if not practice("red_rabbit_square.png"):
+                showExplanation(explaning[49:49+2])
+                showExplanation(explaning[48])
+
+            if not practice("blue_boat.png"):
+                showExplanation(explaning[51:51+2])
+                showExplanation(explaning[48])
+
+            if not practice("red_rabbit.png"):
+                showExplanation(explaning[53:53+2])
+                showExplanation(explaning[48])
+
+            if practice("blue_boat_square.png"):
+                break
+            else:
+                showExplanation(explaning[46:46+3])
+
+    except PassException as e: 
+        window.load_state()
+    showExplanation(explaning[55])
+    game(3, answer)
+
+
+if task_type == 'B':  # yellow_truck green_flower
+    # 색깔로 맞추기
+    answer = {
+        "yellow_flower.png": 'left',
+        "green_truck.png": 'right'
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+7])
+        # 연습시행 1
+        if not practice("green_truck.png"):
+            showExplanation(explaning[9:9+3])
+ 
+        if practice("yellow_flower.png"):
+            showExplanation(explaning[8])
         else:
-            showExplanation(explaning[46:46+3])
+            showExplanation(explaning[12:12+2])
+            showExplanation(explaning[11])
+        # 연습시행 2
+        while True:
+            if not practice("yellow_flower.png"):
+                showExplanation(explaning[12:12+2])
+                showExplanation(explaning[11])
 
-except PassException as e: 
-    window.load_state()
-showExplanation(explaning[55])
-game(3, answer)
+            if practice("green_truck.png"):
+                break
+            else:
+                showExplanation(explaning[9:9+3])
+    except PassException as e: 
+        window.load_state()
+    showExplanation(explaning[14])
+    game(1, answer)
+
+    answer = {
+        "yellow_flower.png": 'right',
+        "green_truck.png": 'left'
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[15:15+7])
+        if not practice("green_truck.png"):
+            showExplanation(explaning[26:26+3])
+ 
+        if practice("yellow_flower.png"):
+            showExplanation(explaning[22])
+        else:
+            showExplanation(explaning[26:26+2])
+            showExplanation(explaning[25])
+
+        # 연습시행 2
+        while True:
+            if not practice("yellow_flower.png"):
+                showExplanation(explaning[26:26+2])
+                showExplanation(explaning[25])
+
+            if practice("red_rabbit.png"):
+                break
+            else:
+                showExplanation(explaning[26:26+3])
+
+    except PassException as e: 
+        window.load_state()
+
+    showExplanation(explaning[28])
+    game(2, answer)
+
+    # yellow_truck green_flower
+    # 테두리 -> 색깔,  일반 -> 모양
+    answer = {
+        "yellow_flower_square.png": 'left',
+        "green_truck_square.png": 'right',
+        "yellow_flower.png": 'right',
+        "green_truck.png": 'left'
+    }
+    window.save_state()
+    try:
+        showExplanation(explaning[29:29+14])
+        if not practice("yellow_flower_square.png"):
+            showExplanation(explaning[43:43+3])
+
+        if not practice("green_truck_square.png"):
+            showExplanation(explaning[47:47+2])
+            showExplanation(explaning[45])
+
+        if not practice("yellow_flower.png"):
+            showExplanation(explaning[51:51+2])
+            showExplanation(explaning[46])
+
+        if practice("green_truck.png"):
+            showExplanation(explaning[43])
+        else:
+            showExplanation(explaning[49:49+2])
+            showExplanation(explaning[46])
 
 
-result.save()
+        while True:
+            if not practice("green_truck_square.png"):
+                showExplanation(explaning[48:48+2])
+                showExplanation(explaning[46])
+
+            if not practice("yellow_flower.png"):
+                showExplanation(explaning[51:51+2])
+                showExplanation(explaning[46])
+
+            if not practice("green_truck.png"):
+                showExplanation(explaning[49:49+2])
+                showExplanation(explaning[46])
+
+            if practice("yellow_flower_square.png"):
+                break
+            else:
+                showExplanation(explaning[43:43+3])
+
+    except PassException as e: 
+        window.load_state()
+    showExplanation(explaning[53])
+    game(3, answer)
