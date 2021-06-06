@@ -139,7 +139,7 @@ if task_type == 'A':
             showExplanation(explaning[14:14+2])
             showExplanation(explaning[13])
         # 연습시행 2
-        while True:
+        for i in range(0,4):
             if not practice("blue_boat.png"):
                 showExplanation(explaning[14:14+2])
                 showExplanation(explaning[13])
@@ -170,7 +170,7 @@ if task_type == 'A':
             showExplanation(explaning[27])
 
         # 연습시행 2
-        while True:
+        for i in range(0,4):
             if not practice("blue_boat.png"):
                 showExplanation(explaning[28:28+2])
                 showExplanation(explaning[27])
@@ -215,7 +215,7 @@ if task_type == 'A':
             showExplanation(explaning[48])
 
 
-        while True:
+        for i in range(0,3):
             if not practice("red_rabbit_square.png"):
                 showExplanation(explaning[49:49+2])
                 showExplanation(explaning[48])
@@ -260,7 +260,7 @@ if task_type == 'B':  # yellow_truck green_flower
             showExplanation(explaning[12:12+2])
             showExplanation(explaning[11])
         # 연습시행 2
-        while True:
+        for i in range(0,4):
             if not practice("yellow_flower.png"):
                 showExplanation(explaning[12:12+2])
                 showExplanation(explaning[11])
@@ -291,7 +291,7 @@ if task_type == 'B':  # yellow_truck green_flower
             showExplanation(explaning[25])
 
         # 연습시행 2
-        while True:
+        for i in range(0,4):
             if not practice("yellow_flower.png"):
                 showExplanation(explaning[26:26+2])
                 showExplanation(explaning[25])
@@ -336,7 +336,7 @@ if task_type == 'B':  # yellow_truck green_flower
             showExplanation(explaning[46])
 
 
-        while True:
+        for i in range(0,3):
             if not practice("green_truck_square.png"):
                 showExplanation(explaning[48:48+2])
                 showExplanation(explaning[46])
