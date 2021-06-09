@@ -93,14 +93,17 @@ def game(index, answer, count=12):
 
         if trial_result['trial_correct']:
             reaction_time_correct.append(trial_result['trial_time'])
-        reaction_time.append(trial_result['trial_time'])
+        if trial_result['trial_response'] != 'none':
+            reaction_time.append(trial_result['trial_time'])
 
         for i in trial_result:
             result.write(i.replace('trial_', prefix + 'each_'), trial_result[i], index=trial_index)
         result.save()
         
-    result.write(prefix + 'reaction_time', np.array(reaction_time).mean())
-    result.write(prefix + 'reaction_time_correct', np.array(reaction_time_correct).mean())
+    if len(reaction_time) != 0:
+        result.write(prefix + 'reaction_time', np.array(reaction_time).mean())
+    if len(reaction_time_correct) != 0:
+        result.write(prefix + 'reaction_time_correct', np.array(reaction_time_correct).mean())
     result.save()
     
 
