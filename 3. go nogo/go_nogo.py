@@ -14,6 +14,10 @@ from common_seung import *
 
 task_type = getTaskType()
 explaning = ['./튜토리얼/Go, No-Go(%s)_T%d.PNG' % (task_type, i) for i in range(0,30)]
+participant_info = inputParticipant('Go, No-Go')
+win, window = initWindow()
+result = pyresult(participant_info, 'Go, No-Go', task_type)
+
 
 image_path = "./이미지/" + task_type + '과제'
 
@@ -46,10 +50,18 @@ for i in range(0,5):
             orders.extend(image_list)
             break
 
-participant_info = inputParticipant('Go, No-Go')
-win, window = initWindow()
-result = pyresult(participant_info, 'Go, No-Go', task_type)
+# 이미지 순서 먼저 저장
+mapping_image_number = {}
+for i, img_path in enumerate(go_image_list):
+    mapping_image_number[img_path] = i
 
+for i, img_path in enumerate(orders):
+    go = not(os.path.basename(img_path).startswith('nogo'))
+    if go:
+        result.write('trial_stimulus', 'Go (%d)' % mapping_image_number[img_path], index=i)
+    else:
+        result.write('trial_stimulus', 'NoGo', index=i)
+result.save()
 # 이미지 캐싱
 images = {}
 for i in set(orders):
@@ -196,6 +208,8 @@ nogo_reaction_time = []
 for trial_index, image_name in enumerate(orders):
     trial_result = trial(image_name)
     for i in trial_result:
+        if i == 'trial_stimulus':
+            continue
         result.write(i, trial_result[i], index=trial_index)
 
     if trial_result['trial_stimulus'] == 'Go' and trial_result['trial_response'] == 'Go':
