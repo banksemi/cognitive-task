@@ -210,7 +210,7 @@ if task_type == 'B':
             random.shuffle(stimulus)
             stimulus = stimulus[0:trial_i+2]
             result.write('trial_stimulus', stimulus, index=trial_index)
-
+    result.save()
 
 trial_index = 0
 for trial_i in range(0, 8):

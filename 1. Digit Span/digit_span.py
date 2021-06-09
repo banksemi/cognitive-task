@@ -135,17 +135,18 @@ elif task_type == 'B':
     random.seed(445) # B 과제 본시행을 위한 시드값 고정
 window.event_listener_exit.append(lambda: exit_event('esc'))
 
-for trial_i in range(0, 8):
-    for trial_j in [0, 1]:
-        trial_index = trial_i * 2 + trial_j
-        stimulus = list(range(1,10))
-        while True:
-            random.shuffle(stimulus)
-            if not stimulus[trial_i + 2 - 1] == 6:
-                break
-        stimulus = stimulus[0:trial_i+2]
-        result.write('trial_stimulus', stimulus, index=trial_index)
-
+if task_type == 'B':
+    for trial_i in range(0, 8):
+        for trial_j in [0, 1]:
+            trial_index = trial_i * 2 + trial_j
+            stimulus = list(range(1,10))
+            while True:
+                random.shuffle(stimulus)
+                if not stimulus[trial_i + 2 - 1] == 6:
+                    break
+            stimulus = stimulus[0:trial_i+2]
+            result.write('trial_stimulus', stimulus, index=trial_index)
+    result.save()
 
 for trial_i in range(0, 8):
     corrects = []
