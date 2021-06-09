@@ -18,7 +18,7 @@ participant_info = inputParticipant('Go, No-Go')
 win, window = initWindow()
 result = pyresult(participant_info, 'Go, No-Go', task_type)
 
-
+delayed_option = sys.argv[2] == "delay" if len(sys.argv) >= 3 else False
 image_path = "./이미지/" + task_type + '과제'
 
 go_image_list = []
@@ -71,6 +71,8 @@ for i in set(orders):
 
 
 def trial(image_name, timeout=1):
+    if delayed_option:
+        window.update_wait_time(0.5)
     trial_result = {}
     images[image_name].setVisible(True)
     go = not(os.path.basename(image_name).startswith('nogo')) # 정답 설정
@@ -101,6 +103,10 @@ def trial(image_name, timeout=1):
             break
     images[image_name].setVisible(False)
     return trial_result
+
+basic_plus_image = drawling_text(0, 0, "+", color=[0,0,0], height=0.12) 
+basic_plus_image.z = -1
+window.append(basic_plus_image)
 
 # 연습 시행 루틴
 window.save_state()
