@@ -172,17 +172,19 @@ if task_type == 'A':
     window.save_state()
     try:
         showExplanation(explaning[1:1+7])
-        while True:
-            trial_result = trial([4,5])
-            if 'nosave_timeout' in trial_result: # 무응답
-                showExplanation(explaning[9:9+1])
-                continue
-            elif trial_result['trial_correct'] == 0: # 오답
-                showExplanation(explaning[10])
-                trial([4,5], only_show = True)
-                showExplanation(explaning[11:11+3])
-            else: # 정답
-                showExplanation(explaning[8])
+        for a in range(0,3):
+            for b in range(0,3):
+                trial_result = trial([4,5])
+                if 'nosave_timeout' in trial_result and b != 2: # 무응답
+                    showExplanation(explaning[9:9+1])
+                    continue
+                elif trial_result['trial_correct'] == 0 or b == 2: # 오답
+                    showExplanation(explaning[10])
+                    trial([4,5], only_show = True)
+                    showExplanation(explaning[11:11+3])
+                else: # 정답
+                    showExplanation(explaning[8])
+                break
             trial_result = trial([8, 6])
             if trial_result['trial_correct'] == 1: # 정답
                 break
