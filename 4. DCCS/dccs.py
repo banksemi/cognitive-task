@@ -89,7 +89,7 @@ def game(index, answer, count=12):
     
     prefix = 'trial%d_' % index
     for trial_index, (right_answer, image_name) in enumerate(orders):
-        trial_result = trial(right_answer, image_name, timeout=15) # 본 시행시 무반응 시간
+        trial_result = trial(right_answer, image_name, timeout=10) # 본 시행시 무반응 시간
 
         if trial_result['trial_correct']:
             reaction_time_correct.append(trial_result['trial_time'])

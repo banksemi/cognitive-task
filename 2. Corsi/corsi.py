@@ -136,7 +136,7 @@ def trial(stimulus, only_show=False):
                         
         if window.isClickedObject(exit_box) or window.getPressKey('space'):
             break
-        if (datetime.now() - last_block_clicked).total_seconds() > 15:
+        if (datetime.now() - last_block_clicked).total_seconds() > 10:
             trial_result['nosave_timeout'] = True;
             break
         

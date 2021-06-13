@@ -66,7 +66,7 @@ def trial(stimulus, input_show = False):
         if window.getPressKey('backspace'):
             responses = responses[0: len(responses) - 1]
 
-        if window.getPressKey('num_enter') or window.getPressKey('return') or (datetime.now() - last_block_clicked).total_seconds() > 15:
+        if window.getPressKey('num_enter') or window.getPressKey('return') or (datetime.now() - last_block_clicked).total_seconds() > 10:
             break
             
         input_text.setText(''.join([str(i) for i in responses]))
