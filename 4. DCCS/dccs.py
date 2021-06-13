@@ -150,7 +150,10 @@ if task_type == 'A':
             if practice("red_rabbit.png"):
                 break
             else:
-                showExplanation(explaning[11:11+3])
+                showExplanation(explaning[11:11+2])
+                if i != 3:
+                    showExplanation(explaning[13])
+
     except PassException as e: 
         window.load_state()
     showExplanation(explaning[16])
@@ -181,7 +184,9 @@ if task_type == 'A':
             if practice("red_rabbit.png"):
                 break
             else:
-                showExplanation(explaning[25:25+3])
+                showExplanation(explaning[25:25+2])                
+                if i != 3:
+                    showExplanation(explaning[27])
 
     except PassException as e: 
         window.load_state()
@@ -234,7 +239,9 @@ if task_type == 'A':
             if practice("blue_boat_square.png"):
                 break
             else:
-                showExplanation(explaning[46:46+3])
+                showExplanation(explaning[46:46+2])
+                if i != 2:
+                    showExplanation(explaning[48])
 
     except PassException as e: 
         window.load_state()
@@ -271,7 +278,9 @@ if task_type == 'B':  # yellow_truck green_flower
             if practice("green_truck.png"):
                 break
             else:
-                showExplanation(explaning[9:9+3])
+                showExplanation(explaning[9:9+2])
+                if i != 3:
+                    showExplanation(explaning[11])
     except PassException as e: 
         window.load_state()
     showExplanation(explaning[14])
@@ -302,7 +311,8 @@ if task_type == 'B':  # yellow_truck green_flower
                 break
             else:
                 showExplanation(explaning[26:26+2])
-                showExplanation(explaning[25])
+                if i != 3:
+                    showExplanation(explaning[25])
 
     except PassException as e: 
         window.load_state()
@@ -355,7 +365,9 @@ if task_type == 'B':  # yellow_truck green_flower
             if practice("yellow_flower_square.png"):
                 break
             else:
-                showExplanation(explaning[44:44+3])
+                showExplanation(explaning[44:44+2])
+                if i != 2:
+                    showExplanation(explaning[46])
 
     except PassException as e: 
         window.load_state()
