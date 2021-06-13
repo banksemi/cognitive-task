@@ -64,8 +64,23 @@ for i, img_path in enumerate(orders):
 result.save()
 # 이미지 캐싱
 images = {}
+height_map = {
+    'Airplane.png': 1,
+    'Ambulance.png': 1.05,
+    'Bus.png': 0.8,
+    'Helicopter.png': 0.7,
+    'nogo-Bicycle.png': 0.7,
+    'Motorcycle.png': 0.7,
+    'Taxi.png': 0.7,
+    'Ship.png': 0.87,
+    'Train.png': 1.15
+}
 for i in set(orders):
-    images[i] = drawling_image(0, 0, i, height=1)
+    height = 1
+    for j in height_map:
+        if i.find(j) != -1:
+            height = height_map[j]
+    images[i] = drawling_image(0, 0, i, height=height)
     images[i].setVisible(False)
     window.append(images[i])
 
