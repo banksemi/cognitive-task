@@ -275,7 +275,7 @@ if task_type == 'B':  # yellow_truck green_flower
     except PassException as e: 
         window.load_state()
     showExplanation(explaning[14])
-    game(1, answer)
+    game(1, answer) 
 
     answer = {
         "yellow_flower.png": 'right',
@@ -285,24 +285,24 @@ if task_type == 'B':  # yellow_truck green_flower
     try:
         showExplanation(explaning[15:15+7])
         if not practice("green_truck.png"):
-            showExplanation(explaning[26:26+3])
+            showExplanation(explaning[26:26+2])
+            showExplanation(explaning[25])
  
         if practice("yellow_flower.png"):
             showExplanation(explaning[22])
         else:
-            showExplanation(explaning[26:26+2])
-            showExplanation(explaning[25])
+            showExplanation(explaning[23:23+3])
 
         # 연습시행 2
         for i in range(0,4):
             if not practice("yellow_flower.png"):
-                showExplanation(explaning[26:26+2])
-                showExplanation(explaning[25])
+                showExplanation(explaning[23:23+3])
 
             if practice("red_rabbit.png"):
                 break
             else:
-                showExplanation(explaning[26:26+3])
+                showExplanation(explaning[26:26+2])
+                showExplanation(explaning[25])
 
     except PassException as e: 
         window.load_state()
@@ -322,11 +322,11 @@ if task_type == 'B':  # yellow_truck green_flower
     try:
         showExplanation(explaning[29:29+14])
         if not practice("yellow_flower_square.png"):
-            showExplanation(explaning[43:43+3])
+            showExplanation(explaning[44:44+3])
 
         if not practice("green_truck_square.png"):
             showExplanation(explaning[47:47+2])
-            showExplanation(explaning[45])
+            showExplanation(explaning[46])
 
         if not practice("yellow_flower.png"):
             showExplanation(explaning[51:51+2])
@@ -341,7 +341,7 @@ if task_type == 'B':  # yellow_truck green_flower
 
         for i in range(0,3):
             if not practice("green_truck_square.png"):
-                showExplanation(explaning[48:48+2])
+                showExplanation(explaning[47:47+2])
                 showExplanation(explaning[46])
 
             if not practice("yellow_flower.png"):
@@ -355,7 +355,7 @@ if task_type == 'B':  # yellow_truck green_flower
             if practice("yellow_flower_square.png"):
                 break
             else:
-                showExplanation(explaning[43:43+3])
+                showExplanation(explaning[44:44+3])
 
     except PassException as e: 
         window.load_state()
