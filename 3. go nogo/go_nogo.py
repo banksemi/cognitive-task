@@ -71,10 +71,12 @@ for i in set(orders):
 
 
 def trial(image_name, timeout=1):
+    basic_plus_image.setVisible(True)
     if delayed_option:
         window.update_wait_time(0.5)
     trial_result = {}
     images[image_name].setVisible(True)
+    basic_plus_image.setVisible(False)
     go = not(os.path.basename(image_name).startswith('nogo')) # 정답 설정
     
     start = datetime.now()
