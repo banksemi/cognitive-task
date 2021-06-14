@@ -66,29 +66,14 @@ def trial(right_answer, image_name, timeout=5):
             return trial_result
 
 def game(index, answer, count=12):
-    left=[]
-    right=[]
-
-    for i in answer:
-        if answer[i] == 'left':
-            left.append(i)
-        if answer[i] == 'right':
-            right.append(i)
+    prefix = 'trial%d_' % index
     reaction_time= []
     reaction_time_correct= []
     
-    orders = []
-    for i in left:
-        orders.append(('left', i))
-        
-    for i in right:
-        orders.append(('right', i))
-
-    orders *= int(count / len(orders))
-    random.shuffle(orders)
-    
     prefix = 'trial%d_' % index
-    for trial_index, (right_answer, image_name) in enumerate(orders):
+    for trial_index in range(0, count):
+        image_name = result.read(prefix + 'each_stimulus', trial_index)
+        right_answer = answer[image_name]
         trial_result = trial(right_answer, image_name, timeout=10) # 본 시행시 무반응 시간
 
         if trial_result['trial_correct']:
@@ -122,6 +107,28 @@ for i in os.listdir("./이미지"):
 
 explaning = ['./튜토리얼/DCCS(%s)_T%d.PNG' % (task_type, i) for i in range(0,60)]
 practice = lambda x: trial(answer[x], x)['trial_correct'] == 1
+if task_type == 'A':
+    orders12 = ['blue_boat.png', 'red_rabbit.png']
+    orders3 = ['blue_boat.png', 'red_rabbit.png', 'red_rabbit_square.png', 'blue_boat_square.png']
+if task_type == 'B':
+    orders12 = ['yellow_flower.png', 'green_truck.png']
+    orders3 = ['yellow_flower.png', 'green_truck.png', 'yellow_flower_square.png', 'green_truck_square.png']
+    random.seed(445) # B 과제 본시행을 위한 시드값 고정
+
+orders12 *= int(12 / len(orders12))
+random.shuffle(orders12)
+for i in range(0,12):
+    result.write('trial1_each_stimulus',orders12[i],i)
+    
+random.shuffle(orders12)
+for i in range(0,12):
+    result.write('trial2_each_stimulus',orders12[i],i)
+
+orders3 *= int(12 / len(orders3))
+random.shuffle(orders3)
+for i in range(0,12):
+    result.write('trial3_each_stimulus',orders3[i],i)
+result.save()
 
 if task_type == 'A':
     # 색깔로 맞추기
@@ -250,8 +257,7 @@ if task_type == 'A':
 
 
 if task_type == 'B':  # yellow_truck green_flower
-    
-    random.seed(445) # B 과제 본시행을 위한 시드값 고정
+
     # 색깔로 맞추기
     answer = {
         "yellow_flower.png": 'left',

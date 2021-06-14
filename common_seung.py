@@ -64,25 +64,28 @@ class pyresult:
             'trial1_score': ['E', 2],
             'trial1_reaction_time': ['F', 2],
             'trial1_reaction_time_correct': ['G', 2],
-            'trial1_each_response': ['C', 5],
-            'trial1_each_correct': ['D', 5],
-            'trial1_each_time': ['E', 5],
+            'trial1_each_stimulus': ['C', 5],
+            'trial1_each_response': ['D', 5],
+            'trial1_each_correct': ['E', 5],
+            'trial1_each_time': ['F', 5],
             
             
             'trial2_score': ['H', 2],
             'trial2_reaction_time': ['I', 2],
             'trial2_reaction_time_correct': ['J', 2],
-            'trial2_each_response': ['C', 17],
-            'trial2_each_correct': ['D', 17],
-            'trial2_each_time': ['E', 17],
+            'trial2_each_stimulus': ['C', 17],
+            'trial2_each_response': ['D', 17],
+            'trial2_each_correct': ['E', 17],
+            'trial2_each_time': ['F', 17],
             
             
             'trial3_score': ['K', 2],
             'trial3_reaction_time': ['L', 2],
             'trial3_reaction_time_correct': ['M', 2],
-            'trial3_each_response': ['C', 29],
-            'trial3_each_correct': ['D', 29],
-            'trial3_each_time': ['E', 29],
+            'trial3_each_stimulus': ['C', 29],
+            'trial3_each_response': ['D', 29],
+            'trial3_each_correct': ['E', 29],
+            'trial3_each_time': ['F', 29],
         }
     }
     
