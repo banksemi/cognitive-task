@@ -131,7 +131,11 @@ if task_type == 'A':
     else:
         showExplanation(explaning[8])
 elif task_type == 'B':
-    showExplanation(explaning[1:1+3])
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+3])
+    except PassException as e: 
+        window.load_state()
     random.seed(445) # B 과제 본시행을 위한 시드값 고정
 window.event_listener_exit.append(lambda: exit_event('esc'))
 

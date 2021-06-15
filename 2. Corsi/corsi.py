@@ -198,7 +198,12 @@ if task_type == 'A':
 
     showExplanation(explaning[18])
 if task_type == 'B':
-    showExplanation(explaning[1:1+3])
+    window.save_state()
+    try:
+        showExplanation(explaning[1:1+3])
+    except PassException as e: 
+        window.load_state()
+
     random.seed(654) # B 과제 본시행을 위한 시드값 고정
 
 # 본시행
