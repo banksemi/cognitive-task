@@ -313,7 +313,7 @@ if task_type == 'B':  # yellow_truck green_flower
             if not practice("yellow_flower.png"):
                 showExplanation(explaning[23:23+3])
 
-            if practice("red_rabbit.png"):
+            if practice("green_truck.png"):
                 break
             else:
                 showExplanation(explaning[26:26+2])
