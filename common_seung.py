@@ -112,6 +112,8 @@ class pyresult:
             self.write(i, participant_info[i])
         
     def write(self, name, value, index=0):
+        if name not in self.value_table[self.test_name]:
+            return
         position = self.value_table[self.test_name][name]
         if isinstance(value, list):
             value = str(value)
