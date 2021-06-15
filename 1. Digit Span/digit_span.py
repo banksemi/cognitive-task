@@ -3,6 +3,7 @@
 from psychopy import visual, core, event, gui
 from datetime import datetime, timedelta
 from psychopy import iohub
+from playsound import playsound
 
 # Import analyze_log
 import random
@@ -41,8 +42,9 @@ def trial(stimulus, input_show = False):
     for i, index in enumerate(stimulus):
         app  = ''
         if i == len(stimulus) - 1:
-            app = "_저음"
-        winsound.PlaySound("./음성/%d%s.wav" % (index, app), winsound.SND_FILENAME)
+            app = "_low"
+        playsound("./sound/%d%s.wav" % (index, app))
+        # winsound.PlaySound("./음성/%d%s.wav" % (index, app), winsound.SND_FILENAME)
 
         window.update_wait_time(0.7)
 
