@@ -66,6 +66,9 @@ class drawling_image_easily_clickable(drawling_image):
 participant_info = inputParticipant('Corsi')
 win, window = initWindow()
 
+if len(sys.argv) > 2 and sys.argv[2] == 'touch':
+    window.mouse.touch_is_working = False
+
 back = drawling_box(0, 0, 200, color=background_color)
 back.z = -999
 window.append(back)

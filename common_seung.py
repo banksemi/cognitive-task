@@ -1,7 +1,7 @@
 from psychopy import visual, core, event, gui
 from datetime import datetime, timedelta
 from psychopy import iohub
-
+import mouse as ms
 # Import analyze_log
 import random
 import openpyxl
@@ -230,24 +230,29 @@ class window_manager:
 # 터치스크린 문제를 해결하기 위해 mouse 객체 재정의
 # 기존 window를 이용하는 mouse 객체와, ioHub로 얻은 mouse 객체를 함께 사용
 class psycopy_mouse:
-    def __init__(self, win, io=None, visible=None):
+    def __init__(self, win, io=None, visible=None, touch_mode = False):
         self.win_mouse=event.Mouse(visible=True,win=win)
         if io is None:
             io = iohub.launchHubServer()
         self.io_mouse = io.devices.mouse
         self.clear()
         
+        self.touch_is_working = not touch_mode
+        self.visible = True
+
         if visible is not None:
             self.setVisible(visible)
-            
     def clear(self):
         self.io_mouse.clearEvents() # 이미 쌓여있는 이벤트는 초기화
         self.pressed = False
         self.clicked = False
+        self.last_pos = self.getPos()
         
     def setVisible(self, value):
         self.win_mouse.setVisible(value)
-        
+        if self.touch_is_working == False and self.visible == False and value == True:
+            ms.move(0, 0)
+        self.visible = value
     def getClicked(self):
         return self.clicked
         
@@ -257,8 +262,9 @@ class psycopy_mouse:
     def update(self):
         self.clicked = False # 클릭 초기화
         events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_PRESS))
-        
         for e in events:
+            print(e)
+            self.touch_is_working = True
             if self.pressed == False:
                 self.clicked = True
             self.pressed = True
@@ -267,6 +273,15 @@ class psycopy_mouse:
         events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_RELEASE))
         for e in events:
             self.pressed = False
+        
+        # 터치 스크린 작동이 보장되지 않을 때 마우스 이동을 이용해서 터치 감지
+        diff = (self.getPos() - self.last_pos)  * [1920, 1080]
+        if self.touch_is_working == False and self.clicked == False:
+            if (abs(diff[0]) > 2 and abs(diff[0]) > 2):
+                self.clicked = True
+                ms.move(0, 0)
+        self.last_pos = self.getPos()
+
             
 image_size_cache = {}
 def get_image_size(filename):
