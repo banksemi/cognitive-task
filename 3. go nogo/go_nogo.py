@@ -257,3 +257,4 @@ if len(nogo_reaction_time) > 0:
 result.save()
 result.close()
                 
+window.exit()

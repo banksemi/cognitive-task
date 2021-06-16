@@ -43,7 +43,7 @@ def trial(stimulus, input_show = False):
         app  = ''
         if i == len(stimulus) - 1:
             app = "_low"
-        playsound("./sound/%d%s.wav" % (index, app))
+        playsound("./sound/%d%s.mp3" % (index, app))
         # winsound.PlaySound("./음성/%d%s.wav" % (index, app), winsound.SND_FILENAME)
 
         window.update_wait_time(0.7)
@@ -178,3 +178,5 @@ for trial_i in range(0, 8):
 
 result.save()
 result.close()
+
+window.exit()

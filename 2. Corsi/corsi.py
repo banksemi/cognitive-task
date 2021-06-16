@@ -248,3 +248,5 @@ for trial_i in range(0, 8):
 
 result.save()
 result.close()
+
+window.exit()

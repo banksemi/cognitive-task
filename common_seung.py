@@ -5,12 +5,18 @@ import mouse as ms
 # Import analyze_log
 import random
 import openpyxl
+import winsound
+import threading
 import os  
 import json
 import sys
-
 from PIL import Image
 
+
+
+import pyaudio
+import numpy as np
+import time
 ####################################################################################
 # 액셀 입출력을 위한 클래스
 class pyresult:
@@ -161,12 +167,34 @@ class PassException(Exception):    # Exception을 상속받아서 새로운 예�
         super().__init__('연습 시행 생략')
 
 class window_manager:
+    threads = []
     dobjects = []
     input_keys = []
     event_listener_exit = []
+    exited = False
     def __init__(self, win):
         self.win = win
         self.mouse=psycopy_mouse(visible=True, win=win)
+        t = threading.Thread(target=self.background_sound)
+        t.start()
+
+    def background_sound(self):
+        p = pyaudio.PyAudio()
+        fs = 44100       # sampling rate, Hz, must be integer
+        duration = 1.0   # in seconds, may be float
+        f = 24000.0        # sine frequency, Hz, may be float
+
+        # generate samples, note conversion to float32 array
+        samples = (np.sin(2*np.pi*np.arange(fs*duration)*f/fs)).astype(np.float32)
+
+        # for paFloat32 sample values must be in range [-1.0, 1.0]
+        stream = p.open(format=pyaudio.paFloat32,
+                        channels=1,
+                        rate=fs,
+                        output=True)
+        while self.exited == False:
+            stream.write(0.01*samples)
+            time.sleep(1)
     
     def append(self, dobject):
         self.dobjects.append(dobject)
@@ -180,6 +208,9 @@ class window_manager:
                 return True
         return False
         
+
+    def exit(self):
+        self.exited = True
     def update(self):
         self.mouse.update()
         self.win.update()
@@ -189,6 +220,7 @@ class window_manager:
         if self.getPressKey('escape'):
             for event_function in self.event_listener_exit:
                 event_function()
+            self.exited = True
             self.win.close()
             core.quit()
         self.dobjects.sort(key= lambda x: x.z)
@@ -353,7 +385,7 @@ window = None
 def initWindow():
     #윈도우
     global win, window
-    win = visual.Window([1920, 1080], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
+    win = visual.Window([1920, 1080], allowGUI=True, fullscr=True, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
 
