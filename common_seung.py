@@ -235,6 +235,7 @@ class psycopy_mouse:
         if io is None:
             io = iohub.launchHubServer()
         self.io_mouse = io.devices.mouse
+        self.force_position = None
         self.clear()
         
         self.touch_is_working = not touch_mode
@@ -253,13 +254,18 @@ class psycopy_mouse:
         if self.touch_is_working == False and self.visible == False and value == True:
             ms.move(0, 0)
         self.visible = value
+
     def getClicked(self):
         return self.clicked
         
+
     def getPos(self):
+        if self.force_position is not None:
+            return self.force_position
         return self.win_mouse.getPos()
         
     def update(self):
+        self.force_position = None # 강제 지정 초기화
         self.clicked = False # 클릭 초기화
         events = self.io_mouse.getEvents(event_type=(iohub.constants.EventConstants.MOUSE_BUTTON_PRESS))
         for e in events:
@@ -277,9 +283,13 @@ class psycopy_mouse:
         # 터치 스크린 작동이 보장되지 않을 때 마우스 이동을 이용해서 터치 감지
         diff = (self.getPos() - self.last_pos)  * [1920, 1080]
         if self.touch_is_working == False and self.clicked == False:
-            if (abs(diff[0]) > 2 and abs(diff[0]) > 2):
+            if (abs(diff[0]) > 2 or abs(diff[1]) > 2):
                 self.clicked = True
+                # 이번 프레임 클릭 위치 기억
+                self.force_position = self.win_mouse.getPos() 
+                # 위치 초기화
                 ms.move(0, 0)
+                self.last_pos = (0, 0)
         self.last_pos = self.getPos()
 
             
