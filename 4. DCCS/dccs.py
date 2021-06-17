@@ -31,7 +31,6 @@ window.append(basic_right_image)
 basic_plus_image = drawling_text(0, -0.2, "+", color=[0,0,0], height=0.1) 
 window.append(basic_plus_image)
 def trial(right_answer, image_name, timeout=5):
-    winsound.Beep(31111,1)
     image = images[image_name]
     trial_result = {}
     window.update_wait_time(0.5)
