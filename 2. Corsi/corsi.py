@@ -175,7 +175,8 @@ if task_type == 'A':
     window.save_state()
     try:
         showExplanation(explaning[1:1+7])
-        for a in range(0,3):
+        
+        for practice_count in range(0,3):
             for b in range(0,3):
                 trial_result = trial([4,5])
                 if 'nosave_timeout' in trial_result and b != 2: # 무응답
@@ -194,7 +195,10 @@ if task_type == 'A':
             else:
                 showExplanation(explaning[14])
                 trial([8, 6], only_show = True)
-                showExplanation(explaning[15:15+3])
+                showExplanation(explaning[15:15+2])
+                if practice_count != 2:
+                    showExplanation(explaning[17])
+
                 continue
     except PassException as e: 
         window.load_state()
