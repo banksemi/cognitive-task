@@ -29,26 +29,16 @@ for i in os.listdir(image_path):
     else:
         go_image_list.append(os.path.join(image_path, i))
 
-last = None
-orders = []
-if task_type == 'B':
-    random.seed(132)
-for i in range(0,5):
-    image_list = go_image_list + nogo_image_list * 2
-
-    while True:
-        random.shuffle(image_list)
-        # 연속해서 같은 이미지가 있는 경우 다시 섞기
-        reshuffle = False
-        for j in range(0, len(image_list)-1):
-            if image_list[j] == image_list[j+1]:
-                reshuffle = True
-        if reshuffle:
-            continue
-        if image_list[0] != last:
-            last = image_list[-1]
-            orders.extend(image_list)
+orders = (go_image_list + nogo_image_list * 2) * 5
+while True:
+    random.shuffle(orders)
+    reshuffle = False
+    for i in range(0, 59):
+        if orders[i] == orders[i + 1]:
+            reshuffle = True
             break
+    if reshuffle == False:
+        break
 
 # 이미지 순서 먼저 저장
 mapping_image_number = {}

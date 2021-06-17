@@ -113,21 +113,31 @@ if task_type == 'A':
 if task_type == 'B':
     orders12 = ['yellow_flower.png', 'green_truck.png']
     orders3 = ['yellow_flower.png', 'green_truck.png', 'yellow_flower_square.png', 'green_truck_square.png']
-    random.seed(445) # B 과제 본시행을 위한 시드값 고정
 
-orders12 *= int(12 / len(orders12))
-random.shuffle(orders12)
+def make_sequence(input_orders):
+    orders = input_orders * int(12 / len(input_orders))
+    while True:
+        random.shuffle(orders)
+        reshuffle = False
+        for i in range(0, 12 - 2):
+            if orders[i] == orders[i + 1] and orders[i + 1] == orders[i + 2]:
+                reshuffle = True
+                break
+        if reshuffle == False:
+            break
+    return orders;
+
+orders = make_sequence(orders12)
 for i in range(0,12):
-    result.write('trial1_each_stimulus',orders12[i],i)
+    result.write('trial1_each_stimulus',orders[i],i)
     
-random.shuffle(orders12)
+orders = make_sequence(orders12)
 for i in range(0,12):
-    result.write('trial2_each_stimulus',orders12[i],i)
+    result.write('trial2_each_stimulus',orders[i],i)
 
-orders3 *= int(12 / len(orders3))
-random.shuffle(orders3)
+orders = make_sequence(orders3)
 for i in range(0,12):
-    result.write('trial3_each_stimulus',orders3[i],i)
+    result.write('trial3_each_stimulus',orders[i],i)
 result.save()
 
 if task_type == 'A':
