@@ -207,20 +207,18 @@ if task_type == 'B':
     except PassException as e: 
         window.load_state()
 
-    random.seed(654) # B 과제 본시행을 위한 시드값 고정
-
 # 본시행
 window.event_listener_exit.append(lambda: exit_event('esc'))
 block_span = 0
-if task_type == 'B':
-    for trial_i in range(0, 8):
-        for trial_j in [0, 1]:
-            trial_index = trial_i * 2 + trial_j
-            stimulus = list(range(1,10))
-            random.shuffle(stimulus)
-            stimulus = stimulus[0:trial_i+2]
-            result.write('trial_stimulus', stimulus, index=trial_index)
-    result.save()
+
+for trial_i in range(0, 8):
+    for trial_j in [0, 1]:
+        trial_index = trial_i * 2 + trial_j
+        stimulus = list(range(1,10))
+        random.shuffle(stimulus)
+        stimulus = stimulus[0:trial_i+2]
+        result.write('trial_stimulus', stimulus, index=trial_index)
+result.save()
 
 trial_index = 0
 for trial_i in range(0, 8):
