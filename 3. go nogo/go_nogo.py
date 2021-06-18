@@ -192,7 +192,7 @@ try:
         showExplanation(explaning[8])
 
     # 2장의 Go Task
-    for i in go_image_list[3:3+2]:
+    for i in go_image_list[8:8+2]:
         trial_result = trial(i, timeout=3)
         if trial_result['trial_response'] == 'NoGo':
             go_count -= 1
