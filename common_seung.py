@@ -180,6 +180,7 @@ class window_manager:
     exited = False
     def __init__(self, win):
         self.win = win
+        self.reset_state()
         self.mouse=psycopy_mouse(visible=True, win=win)
         t = threading.Thread(target=self.background_sound)
         t.start()
@@ -222,7 +223,8 @@ class window_manager:
         self.win.update()
         self.input_keys = event.getKeys()
         if self.getPressKey('p'):
-            raise PassException()
+            if len(self.state) != 0:
+                raise PassException()
         if self.getPressKey('escape'):
             for event_function in self.event_listener_exit:
                 event_function()
@@ -254,7 +256,7 @@ class window_manager:
         return self.mouse.getClicked() and dobject.contains(self.mouse.getPos())
 
     def save_state(self):
-        self.state = []
+        self.reset_state()
         for i in self.dobjects:
             self.state.append((i,i.visible, i.z))
 
@@ -264,6 +266,9 @@ class window_manager:
             i[0].visible = i[1]
             i[0].z = i[2]
             self.dobjects.append(i[0])
+    def reset_state(self):
+        self.state = []
+
             
 # 터치스크린 문제를 해결하기 위해 mouse 객체 재정의
 # 기존 window를 이용하는 mouse 객체와, ioHub로 얻은 mouse 객체를 함께 사용

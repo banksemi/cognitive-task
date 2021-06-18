@@ -172,6 +172,8 @@ if task_type == 'A':
 
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
     showExplanation(explaning[16])
     game(1, answer)
 
@@ -206,6 +208,8 @@ if task_type == 'A':
 
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
     showExplanation(explaning[30])
     game(2, answer)
@@ -261,6 +265,8 @@ if task_type == 'A':
 
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
     showExplanation(explaning[55])
     game(3, answer)
 
@@ -298,6 +304,8 @@ if task_type == 'B':  # yellow_truck green_flower
                     showExplanation(explaning[11])
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
     showExplanation(explaning[14])
     game(1, answer) 
 
@@ -331,6 +339,8 @@ if task_type == 'B':  # yellow_truck green_flower
 
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
     showExplanation(explaning[28])
     game(2, answer)
@@ -386,6 +396,8 @@ if task_type == 'B':  # yellow_truck green_flower
 
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
     showExplanation(explaning[53])
     game(3, answer)
 

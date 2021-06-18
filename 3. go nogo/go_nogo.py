@@ -208,6 +208,8 @@ try:
 
 except PassException as e: 
     window.load_state()
+finally:
+    window.reset_state()
 
 # 본 시행 시작 피드백
 showExplanation(explaning[10])

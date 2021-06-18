@@ -127,6 +127,8 @@ if task_type == 'A':
                     showExplanation(explaning[7])
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
     if practice_count == 3:
         showExplanation(explaning[9])
@@ -138,6 +140,8 @@ elif task_type == 'B':
         showExplanation(explaning[1:1+3])
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
 window.event_listener_exit.append(lambda: exit_event('esc'))
 

@@ -202,6 +202,8 @@ if task_type == 'A':
                 continue
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
     showExplanation(explaning[18])
 if task_type == 'B':
@@ -210,6 +212,8 @@ if task_type == 'B':
         showExplanation(explaning[1:1+3])
     except PassException as e: 
         window.load_state()
+    finally:
+        window.reset_state()
 
 # 본시행
 window.event_listener_exit.append(lambda: exit_event('esc'))
