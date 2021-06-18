@@ -46,7 +46,6 @@ def trial(right_answer, image_name, timeout=5):
         if window.getPressKey('slash'):
             response = 'right'
                 
-
         if response != 'none':
             image.setVisible(False)
             correct = response == right_answer
@@ -159,6 +158,7 @@ if task_type == 'A':
     window.save_state()
     try:
         showExplanation(explaning[1:1+9])
+
         # 연습시행 1
         if not practice("red_rabbit.png"):
             showExplanation(explaning[11:11+3])
@@ -168,6 +168,7 @@ if task_type == 'A':
         else:
             showExplanation(explaning[14:14+2])
             showExplanation(explaning[13])
+
         # 연습시행 2
         for i in range(0,4):
             if not practice("blue_boat.png"):
@@ -195,6 +196,8 @@ if task_type == 'A':
     window.save_state()
     try:
         showExplanation(explaning[17:17+7])
+
+         # 연습시행 1
         if not practice("red_rabbit.png"):
             showExplanation(explaning[25:25+3])
  
@@ -282,8 +285,7 @@ if task_type == 'A':
     game(3, answer, stimulus3)
 
 
-if task_type == 'B':  # yellow_truck green_flower
-
+if task_type == 'B':
     # 색깔로 맞추기
     answer = {
         "yellow_flower.png": 'left',
@@ -292,6 +294,7 @@ if task_type == 'B':  # yellow_truck green_flower
     window.save_state()
     try:
         showExplanation(explaning[1:1+7])
+
         # 연습시행 1
         if not practice("green_truck.png"):
             showExplanation(explaning[9:9+3])
@@ -301,6 +304,7 @@ if task_type == 'B':  # yellow_truck green_flower
         else:
             showExplanation(explaning[12:12+2])
             showExplanation(explaning[11])
+
         # 연습시행 2
         for i in range(0,4):
             if not practice("yellow_flower.png"):
@@ -327,6 +331,8 @@ if task_type == 'B':  # yellow_truck green_flower
     window.save_state()
     try:
         showExplanation(explaning[15:15+7])
+
+        # 연습시행 1
         if not practice("green_truck.png"):
             showExplanation(explaning[26:26+2])
             showExplanation(explaning[25])
@@ -356,7 +362,6 @@ if task_type == 'B':  # yellow_truck green_flower
     showExplanation(explaning[28])
     game(2, answer, stimulus2)
 
-    # yellow_truck green_flower
     # 테두리 -> 색깔,  일반 -> 모양
     answer = {
         "yellow_flower_square.png": 'left',
@@ -383,7 +388,6 @@ if task_type == 'B':  # yellow_truck green_flower
         else:
             showExplanation(explaning[49:49+2])
             showExplanation(explaning[46])
-
 
         for i in range(0,3):
             if not practice("green_truck_square.png"):
