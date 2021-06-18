@@ -25,12 +25,12 @@ height_map = {
     'Airplane.png': 1,
     'Ambulance.png': 1.05,
     'Bus.png': 0.8,
-    'Helicopter.png': 0.7,
+    'Helicopter.png': 0.8,
     'nogo-Bicycle.png': 0.7,
-    'Motorcycle.png': 0.7,
-    'Taxi.png': 0.7,
+    'Motorcycle.png': 0.8,
+    'Taxi.png': 0.75,
     'Ship.png': 0.87,
-    'Train.png': 1.15
+    'Train.png': 1.4
 }
 
 
