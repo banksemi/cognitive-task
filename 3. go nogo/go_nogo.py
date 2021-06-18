@@ -4,7 +4,7 @@
 from psychopy import visual, core, event, gui
 import random
 import numpy as np
-
+from pathlib import Path
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
@@ -84,12 +84,13 @@ else:
 # 이미지 순서 먼저 저장
 mapping_image_number = {}
 for i, img_path in enumerate(go_image_list):
-    mapping_image_number[img_path] = i
+    print(Path(img_path).stem)
+    mapping_image_number[img_path] = Path(img_path).stem
 
 for i, img_path in enumerate(orders):
     go = not(os.path.basename(img_path).startswith('nogo'))
     if go:
-        result.write('trial_stimulus', 'Go (%d)' % mapping_image_number[img_path], index=i)
+        result.write('trial_stimulus', 'Go (%s)' % mapping_image_number[img_path], index=i)
     else:
         result.write('trial_stimulus', 'NoGo', index=i)
 result.save()
