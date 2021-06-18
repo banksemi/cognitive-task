@@ -130,12 +130,14 @@ class pyresult:
         return self.worksheet[position[0] + str(position[1] + index)].value
         
     def save(self, reload=True):
+        global window
         try:
             self.workbook.save(self.output_path)
         except PermissionError as e:
             myDlg = gui.Dlg(title="오류")
             myDlg.addText('엑셀 파일을 쓸 수 없습니다. (이미 실행중 혹은 권한 오류)')
             ok_data = myDlg.show()  # show dialog and wait for OK or Cancel
+            window.exit()
             raise e
         self.__init__(self.participant_info, self.test_name, self.task_type, reset= False)
         
@@ -396,7 +398,7 @@ window = None
 def initWindow():
     #윈도우
     global win, window
-    win = visual.Window([1920, 1080], allowGUI=True, fullscr=True, units='height', color=[255,255,255])
+    win = visual.Window([1920, 1080], allowGUI=True, fullscr=False, units='height', color=[255,255,255])
     window = window_manager(win)
     return win, window
 
