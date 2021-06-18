@@ -14,8 +14,8 @@ from common_seung import *
 # delayed_option: 이미지 사이에 0.5초의 딜레이를 줄지 설정 (True/False)
 delayed_option = sys.argv[2] == "delay" if len(sys.argv) >= 3 else False
 
-# 5개의 block(10image, 2nogo) 단위로 섞을 것인지 설정 (True/False)
-shuffle_with_block = True
+# 5개의 block(10image, 2nogo) 단위로 섞을 것인지 설정 (True-블록/False-전체)
+shuffle_with_block = False
 
 # 과제 타입 설정 ('A'/'B')
 task_type = getTaskType()
