@@ -2,11 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from psychopy import visual, core, event, gui, data
-from PIL import Image
 import random
 import winsound
-import sys             #sys.exit()
-import os
 import numpy as np
 import threading
 
