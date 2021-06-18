@@ -6,6 +6,7 @@ import random
 import winsound
 import numpy as np
 import threading
+import copy
 
 import os, sys
 sys.path.append((os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
@@ -61,14 +62,13 @@ def trial(right_answer, image_name, timeout=5):
 
             return trial_result
 
-def game(index, answer, count=12):
+def game(index, answer, stimulus):
     prefix = 'trial%d_' % index
     reaction_time= []
     reaction_time_correct= []
     
     prefix = 'trial%d_' % index
-    for trial_index in range(0, count):
-        image_name = result.read(prefix + 'each_stimulus', trial_index)
+    for trial_index, image_name in enumerate(stimulus):
         right_answer = answer[image_name]
         trial_result = trial(right_answer, image_name, timeout=10) # 본 시행시 무반응 시간
 
@@ -121,19 +121,33 @@ def make_sequence(input_orders):
                 break
         if reshuffle == False:
             break
-    return orders;
 
-orders = make_sequence(orders12)
+    return copy.deepcopy(orders)
+
+def getName(filename):
+    name = filename.split('.')[0]
+    name = name.replace('_', ' ')
+    SplitT = name.split(" ")
+    name_result = ""
+    for i in SplitT:
+        i = i.capitalize()
+        if name_result == "":
+            name_result = i
+        else :
+            name_result = name_result + " " + i
+    return name_result
+
+stimulus1 = make_sequence(orders12)
 for i in range(0,12):
-    result.write('trial1_each_stimulus',orders[i],i)
+    result.write('trial1_each_stimulus',getName(stimulus1[i]),i)
     
-orders = make_sequence(orders12)
+stimulus2 = make_sequence(orders12)
 for i in range(0,12):
-    result.write('trial2_each_stimulus',orders[i],i)
+    result.write('trial2_each_stimulus',getName(stimulus2[i]),i)
 
-orders = make_sequence(orders3)
+stimulus3 = make_sequence(orders3)
 for i in range(0,12):
-    result.write('trial3_each_stimulus',orders[i],i)
+    result.write('trial3_each_stimulus',getName(stimulus3[i]),i)
 result.save()
 
 if task_type == 'A':
@@ -172,7 +186,7 @@ if task_type == 'A':
     finally:
         window.reset_state()
     showExplanation(explaning[16])
-    game(1, answer)
+    game(1, answer, stimulus1)
 
     answer = {
         "blue_boat.png": 'right',
@@ -209,7 +223,7 @@ if task_type == 'A':
         window.reset_state()
 
     showExplanation(explaning[30])
-    game(2, answer)
+    game(2, answer, stimulus2)
 
 
     # 테두리 -> 색깔,  일반 -> 모양
@@ -265,7 +279,7 @@ if task_type == 'A':
     finally:
         window.reset_state()
     showExplanation(explaning[55])
-    game(3, answer)
+    game(3, answer, stimulus3)
 
 
 if task_type == 'B':  # yellow_truck green_flower
@@ -304,7 +318,7 @@ if task_type == 'B':  # yellow_truck green_flower
     finally:
         window.reset_state()
     showExplanation(explaning[14])
-    game(1, answer) 
+    game(1, answer, stimulus1) 
 
     answer = {
         "yellow_flower.png": 'right',
@@ -340,7 +354,7 @@ if task_type == 'B':  # yellow_truck green_flower
         window.reset_state()
 
     showExplanation(explaning[28])
-    game(2, answer)
+    game(2, answer, stimulus2)
 
     # yellow_truck green_flower
     # 테두리 -> 색깔,  일반 -> 모양
@@ -396,6 +410,6 @@ if task_type == 'B':  # yellow_truck green_flower
     finally:
         window.reset_state()
     showExplanation(explaning[53])
-    game(3, answer)
+    game(3, answer, stimulus3)
 
 window.exit()
