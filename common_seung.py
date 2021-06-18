@@ -23,10 +23,9 @@ class pyresult:
     value_table = {
         'Digit Span': {
             'Participant ID': ['A',2],
-            'Family name': ['B',2],
-            'First name': ['C',2],
+            'Name': ['B',2],
 
-            'block_span': ['F', 2],
+            'block_span': ['E', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -35,10 +34,9 @@ class pyresult:
         },
         'Corsi': {
             'Participant ID': ['A',2],
-            'Family name': ['B',2],
-            'First name': ['C',2],
+            'Name': ['B',2],
 
-            'block_span': ['F', 2],
+            'block_span': ['E', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -49,13 +47,12 @@ class pyresult:
         },
         'Go, No-Go': {
             'Participant ID': ['A',2],
-            'Family name': ['B',2],
-            'First name': ['C',2],
+            'Name': ['B',2],
 
-            'inhibition': ['D', 2],
-            'score': ['E', 2],
-            'go_reaction_time': ['H', 2],
-            'nogo_reaction_time': ['I', 2],
+            'inhibition': ['C', 2],
+            'score': ['D', 2],
+            'go_reaction_time': ['G', 2],
+            'nogo_reaction_time': ['H', 2],
             
             'trial_stimulus': ['B', 5],
             'trial_response': ['C', 5],
@@ -64,30 +61,26 @@ class pyresult:
         },
         'DCCS': {
             'Participant ID': ['B',2],
-            'Family name': ['C',2],
-            'First name': ['D',2],
+            'Name': ['C',2],
 
-            'trial1_score': ['E', 2],
-            'trial1_reaction_time': ['F', 2],
-            'trial1_reaction_time_correct': ['G', 2],
+            'trial1_reaction_time': ['E', 2],
+            'trial1_reaction_time_correct': ['F', 2],
             'trial1_each_stimulus': ['C', 5],
             'trial1_each_response': ['D', 5],
             'trial1_each_correct': ['E', 5],
             'trial1_each_time': ['F', 5],
             
             
-            'trial2_score': ['H', 2],
-            'trial2_reaction_time': ['I', 2],
-            'trial2_reaction_time_correct': ['J', 2],
+            'trial2_reaction_time': ['H', 2],
+            'trial2_reaction_time_correct': ['I', 2],
             'trial2_each_stimulus': ['C', 17],
             'trial2_each_response': ['D', 17],
             'trial2_each_correct': ['E', 17],
             'trial2_each_time': ['F', 17],
             
             
-            'trial3_score': ['K', 2],
-            'trial3_reaction_time': ['L', 2],
-            'trial3_reaction_time_correct': ['M', 2],
+            'trial3_reaction_time': ['K', 2],
+            'trial3_reaction_time_correct': ['L', 2],
             'trial3_each_stimulus': ['C', 29],
             'trial3_each_response': ['D', 29],
             'trial3_each_correct': ['E', 29],
@@ -99,7 +92,7 @@ class pyresult:
         self.test_name = test_name
         self.participant_info = participant_info
         self.task_type = task_type
-        self.output_path = '../output/%s_%s_%s_CBT.xlsx' % (participant_info['Participant ID'], participant_info['Family name'], participant_info['First name'])
+        self.output_path = '../output/%s_%s_CBT.xlsx' % (participant_info['Participant ID'], participant_info['Name'])
         sheet_name = self.test_name + ' (' + task_type + ')'
         if os.path.isfile(self.output_path):
             self.workbook = openpyxl.load_workbook(self.output_path)
@@ -372,11 +365,10 @@ def inputParticipant(title='Participant'):
     with open('../id.txt', 'r') as f:
         json_data = json.load(f)
     title += ' (' + getTaskType() + ')'
-    dlg = gui.DlgFromDict(json_data, title=title, order = ['Participant ID', 'Family name', 'First name'])
+    dlg = gui.DlgFromDict(json_data, title=title, order = ['Participant ID', 'Name'])
     if not dlg.OK:
         print ('User Cancelled')
         core.quit()
-    id = json_data['Participant ID']
     with open('../id.txt', 'w', encoding='utf-8') as make_file:
         json.dump(json_data, make_file, indent="\t")
 
