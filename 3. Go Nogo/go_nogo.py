@@ -108,7 +108,6 @@ for i in set(orders):
 
 
 def trial(image_name, timeout=1):
-    basic_plus_image.setVisible(True)
     if delayed_option:
         window.update_wait_time(0.5)
     trial_result = {}
@@ -140,6 +139,8 @@ def trial(image_name, timeout=1):
             if response_go:
                 trial_result['trial_reaction_time'] = time
             break
+        
+    basic_plus_image.setVisible(True)
     images[image_name].setVisible(False)
     return trial_result
 
@@ -254,6 +255,8 @@ nogo_reaction_time = []
 
 for trial_index, image_name in enumerate(orders):
     trial_result = trial(image_name)
+    if trial_index != len(orders) - 1:
+        window.force_refresh() # 화면을 먼저 갱신
     for i in trial_result:
         if i == 'trial_stimulus':
             continue

@@ -210,12 +210,11 @@ class window_manager:
                 return True
         return False
         
-
     def exit(self):
         self.exited = True
+
     def update(self):
         self.mouse.update()
-        self.win.update()
         self.input_keys = event.getKeys()
         if self.getPressKey('p'):
             if len(self.state) != 0:
@@ -226,11 +225,7 @@ class window_manager:
             self.exited = True
             self.win.close()
             core.quit()
-        self.dobjects.sort(key= lambda x: x.z)
-        for i in self.dobjects:
-            i.update()
-            if i.visible:
-                i.draw()
+        self.draw_screen() # 화면 업데이트
             
     def update_wait_key(self, key=None):
         while True:
@@ -247,6 +242,18 @@ class window_manager:
         while (datetime.now() - start_time).total_seconds() < seconds:
             self.update()
             
+    def draw_screen(self):
+        self.win.update()
+        self.dobjects.sort(key= lambda x: x.z)
+        for i in self.dobjects:
+            i.update()
+            if i.visible:
+                i.draw()
+
+    def force_refresh(self):
+        for i in range(0,2): # 두번을 업데이트해야 back buffer(더블 버퍼링 옵션)까지 초기화됨
+            self.draw_screen()
+
     def isClickedObject(self, dobject):
         return self.mouse.getClicked() and dobject.contains(self.mouse.getPos())
 

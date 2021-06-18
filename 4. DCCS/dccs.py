@@ -70,7 +70,8 @@ def game(index, answer, stimulus):
     for trial_index, image_name in enumerate(stimulus):
         right_answer = answer[image_name]
         trial_result = trial(right_answer, image_name, timeout=10) # 본 시행시 무반응 시간
-
+        if trial_index != len(stimulus) - 1:
+            window.force_refresh() # 화면을 먼저 갱신
         if trial_result['trial_correct']:
             reaction_time_correct.append(trial_result['trial_time'])
         if trial_result['trial_response'] != 'none':
