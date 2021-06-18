@@ -99,7 +99,7 @@ for box_pos in box_positions:
     boxes.append(box)
     window.append(box)
 
-exit_box = drawling_image_easily_clickable(+0.70, -0.35, "ok2.png", height=0.20) 
+exit_box = drawling_image_easily_clickable(+0.70, -0.35, "ok.png", height=0.20) 
 window.append(exit_box)
 
 def trial(stimulus, only_show=False):
