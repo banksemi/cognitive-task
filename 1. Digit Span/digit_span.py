@@ -2,17 +2,13 @@
 # Imports
 from psychopy import visual, core, event, gui
 from datetime import datetime, timedelta
-from psychopy import iohub
 from playsound import playsound
 
 # Import analyze_log
 import random
-import openpyxl
-import os  
 import json
 import winsound
 import threading
-import winsound
 import random
 
 import os, sys
