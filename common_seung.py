@@ -187,7 +187,7 @@ class window_manager:
     def background_sound(self):
         p = pyaudio.PyAudio()
         fs = 44100       # sampling rate, Hz, must be integer
-        duration = 1.0   # in seconds, may be float
+        duration = 0.5   # in seconds, may be float
         f = 24000.0        # sine frequency, Hz, may be float
 
         # generate samples, note conversion to float32 array
@@ -199,8 +199,8 @@ class window_manager:
                         rate=fs,
                         output=True)
         while self.exited == False:
-            stream.write(0.01*samples)
-            time.sleep(1)
+            stream.write(0.001*samples)
+            time.sleep(duration)
     
     def append(self, dobject):
         self.dobjects.append(dobject)

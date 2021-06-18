@@ -388,4 +388,5 @@ if task_type == 'B':  # yellow_truck green_flower
         window.load_state()
     showExplanation(explaning[53])
     game(3, answer)
-    window.exit()
+
+window.exit()
