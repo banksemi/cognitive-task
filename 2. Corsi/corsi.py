@@ -100,13 +100,13 @@ for box_pos in box_positions:
     window.append(box)
 
 exit_box = drawling_image_easily_clickable(+0.70, -0.35, "ok.png", height=0.20) 
+exit_box.setVisible(False)
 window.append(exit_box)
 
 def trial(stimulus, only_show=False):
     trial_result = {}
     # 시퀀스 제시
     window.mouse.setVisible(False)
-    exit_box.setVisible(False)
         
     window.update_wait_time(1)
 
@@ -116,11 +116,10 @@ def trial(stimulus, only_show=False):
         window.update_wait_time(0.2)
 
     window.mouse.setVisible(True)
-    exit_box.setVisible(True)
-
     if only_show:
         return
-
+    
+    exit_box.setVisible(True)
     # 비프음으로 인한 지연시간 제거
     t = threading.Thread(target=lambda: winsound.Beep(580,500)).start()
 
@@ -152,6 +151,7 @@ def trial(stimulus, only_show=False):
         if i[0] == i[1]:
             score += 1
 
+    exit_box.setVisible(False)
     trial_result['trial_response'] = responses;
     trial_result['trial_reaction_time1'] = (last_block_clicked-start).total_seconds();
     trial_result['trial_reaction_time2'] = (datetime.now()-start).total_seconds();
@@ -236,6 +236,7 @@ for trial_i in range(0, 8):
         stimulus = json.loads(result.read('trial_stimulus', trial_index))
 
         trial_result = trial(stimulus)
+        window.force_refresh() # 화면을 먼저 갱신
         for i in trial_result:
             result.write(i, trial_result[i], index=trial_index)
 
