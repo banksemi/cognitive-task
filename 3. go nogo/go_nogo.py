@@ -3,22 +3,42 @@
 
 from psychopy import visual, core, event, gui
 import random
-import winsound
-from psychopy.tools import filetools
 import numpy as np
-import pandas as pd 
 
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common_seung import *
 
+# 사용자 옵션
+
+# delayed_option: 이미지 사이에 0.5초의 딜레이를 줄지 설정 (True/False)
+delayed_option = sys.argv[2] == "delay" if len(sys.argv) >= 3 else False
+
+# 5개의 block(10image, 2nogo) 단위로 섞을 것인지 설정 (True/False)
+shuffle_with_block = True
+
+# 과제 타입 설정 ('A'/'B')
 task_type = getTaskType()
+
+# 이미지 크기를 강제로 수정
+height_map = {
+    'Airplane.png': 1,
+    'Ambulance.png': 1.05,
+    'Bus.png': 0.8,
+    'Helicopter.png': 0.7,
+    'nogo-Bicycle.png': 0.7,
+    'Motorcycle.png': 0.7,
+    'Taxi.png': 0.7,
+    'Ship.png': 0.87,
+    'Train.png': 1.15
+}
+
+
 explaning = ['./튜토리얼/Go, No-Go(%s)_T%d.PNG' % (task_type, i) for i in range(0,30)]
 participant_info = inputParticipant('Go, No-Go')
 win, window = initWindow()
 result = pyresult(participant_info, 'Go, No-Go', task_type)
 
-delayed_option = sys.argv[2] == "delay" if len(sys.argv) >= 3 else False
 image_path = "./이미지/" + task_type + '과제'
 
 go_image_list = []
@@ -29,16 +49,37 @@ for i in os.listdir(image_path):
     else:
         go_image_list.append(os.path.join(image_path, i))
 
-orders = (go_image_list + nogo_image_list * 2) * 5
-while True:
-    random.shuffle(orders)
-    reshuffle = False
-    for i in range(0, 59):
-        if orders[i] == orders[i + 1]:
-            reshuffle = True
+
+if shuffle_with_block:
+    orders = []
+    for i in range(0,5):
+        block = go_image_list + nogo_image_list * 2
+        while True:
+            random.shuffle(block)
+            reshuffle = False
+            for j in range(0, len(block)-1): # 블럭 내에서 연속된 이미지가 있는가
+                if block[j] == block[j+1]:
+                    reshuffle = True
+
+            if len(orders) != 0 and block[0] == orders[-1]:
+                reshuffle = True
+
+            if reshuffle:
+                continue
+
+            orders.extend(block)
             break
-    if reshuffle == False:
-        break
+else:
+    orders = (go_image_list + nogo_image_list * 2) * 5
+    while True:
+        random.shuffle(orders)
+        reshuffle = False
+        for i in range(0, 59):
+            if orders[i] == orders[i + 1]:
+                reshuffle = True
+                break
+        if reshuffle == False:
+            break
 
 # 이미지 순서 먼저 저장
 mapping_image_number = {}
@@ -54,17 +95,7 @@ for i, img_path in enumerate(orders):
 result.save()
 # 이미지 캐싱
 images = {}
-height_map = {
-    'Airplane.png': 1,
-    'Ambulance.png': 1.05,
-    'Bus.png': 0.8,
-    'Helicopter.png': 0.7,
-    'nogo-Bicycle.png': 0.7,
-    'Motorcycle.png': 0.7,
-    'Taxi.png': 0.7,
-    'Ship.png': 0.87,
-    'Train.png': 1.15
-}
+
 for i in set(orders):
     height = 1
     for j in height_map:
